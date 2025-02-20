@@ -78,9 +78,36 @@
     <div class="container">
       <h2>Blog</h2>
       <div class="blog-post">
-        <h3>How to Automate Deployments with Jenkins</h3>
-        <p>Learn how to set up a CI/CD pipeline using Jenkins and Docker.</p>
-        <a href="#" class="btn">Read More</a>
+        <h3>Upgrade Rancher and downstream Kuberenetes Clusters</h3>
+        <p>Learn how to Upgrade Rancher UI and the downstream clusters.</p>
+        <a href="https://maize-clutch-5db.notion.site/Action-Plan-for-Upgrading-Rancher-from-v2-7-3-to-v2-10-2-and-Kubernetes-Clusters-from-v1-25-x-to-v1--18ec039e0c1c805a9c41ffabdba2413e?pvs=74" class="btn" target="_blank">Read More</a>
+      </div>
+      <div class="blog-post">
+        <h3>Istio Service Mesh Notes.</h3>
+        <p>Study note for Istio Service Mesh.</p>
+        <a href="https://maize-clutch-5db.notion.site/Istio-10ac039e0c1c800189b3d05358d6a62c" class="btn" target="_blank">Read More</a>
+      </div>
+          <!-- Hidden Blog Posts -->
+      <div class="hidden-blogs">
+          <div class="blog-post">
+            <h3>ArgoCD Multiple Cluster Management</h3>
+            <p>How to Manage Multiple Kuberentes Cluster by centralized ArgoCD.</p>
+            <a href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" class="btn" target="_blank">Read More</a>
+          </div>
+          <div class="blog-post">
+            <h3>Rabbit MQ</h3>
+            <p>Study Note for RabbitMQ.</p>
+            <a href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" class="btn" target="_blank">Read More</a>
+          </div>
+          <div class="blog-post">
+            <h3>GitLab Monitoring System</h3>
+            <p>Configure Gitlab Prometheus to send Metrics to externel Metrics collector.</p>
+            <a href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" class="btn" target="_blank">Read More</a>
+          </div>
+        </div>
+    
+        <!-- View More Button -->
+        <button id="view-more-btn" class="btn">View More</button>
       </div>
     </div>
   </section>
@@ -98,10 +125,15 @@
   <section id="contact">
     <div class="container">
       <h2>Contact Me</h2>
-      <form action="#" method="post">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" placeholder="Your Message" required></textarea>
+      <form  action="https://formspree.io/f/xgvodowb" method="post">
+        <label>
+            Your email:
+            <input type="email" name="email">
+          </label>
+          <label>
+            Your message:
+            <textarea name="message"></textarea>
+          </label>
         <button type="submit" class="btn">Send Message</button>
       </form>
     </div>
@@ -112,8 +144,8 @@
     <div class="container">
       <p>&copy; 2023 Ahmed Mahfouz. All rights reserved.</p>
       <div class="social-links">
-        <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/yourprofile" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/ahmed-mahfouzz/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/Mahfouz98" target="_blank"><i class="fab fa-github"></i></a>
       </div>
     </div>
   </footer>

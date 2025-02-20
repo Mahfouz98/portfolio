@@ -47,6 +47,7 @@ body {
     text-decoration: none;
     display: inline-block;
     transition: background 0.3s ease;
+    cursor: pointer;
   }
   
   .btn:hover {
@@ -148,4 +149,22 @@ body {
   
   .social-links a:hover {
     color: #2575fc;
+  }
+
+  .hidden-blogs {
+    display: none; /* Hide additional blog posts by default */
+  }
+
+  input, textarea {
+    width: 100%; /* Ensure consistent width */
+    padding: 10px; /* Same padding for all fields */
+    font-size: 16px; /* Uniform font size */
+    border: 1px solid #ccc; /* Consistent border */
+    border-radius: 5px; /* Optional: for rounded corners */
+    box-sizing: border-box; /* Ensures padding doesn’t affect width */
+  }
+  
+  textarea {
+    height: 40px; /* Match the height of input fields */
+    resize: none; /* Prevent resizing */
   }
