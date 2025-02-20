@@ -14,6 +14,12 @@ body {
     padding: 20px 0;
   }
   
+  .container h2 {
+    font-size: 1.5rem;
+    color: #2575fc;
+    margin-bottom: 10px;
+  }
+
   h1, h2, h3 {
     margin: 0;
     padding: 0;
@@ -72,6 +78,57 @@ body {
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
+  }
+  
+
+  /* techskills Section Styling */
+  .techskills {
+    margin-bottom: 30px;
+  }
+    
+  .techskills h3 {
+    font-size: 1.5rem;
+    color: #2575fc;
+    margin-bottom: 10px;
+  }
+
+  /* Skills Section Styling */
+  .skills {
+    margin-bottom: 30px;
+  }
+  
+  .skills h3 {
+    font-size: 1.5rem;
+    color: #2575fc;
+    margin-bottom: 10px;
+  }
+  
+  .skills ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .skills ul li {
+    background: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    border-left: 4px solid #2575fc;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .skills ul li:hover {
+    background: #e0e0e0;
+  }
+  
+  .skills ul li strong {
+    color: #2575fc;
+  }
+  
+  /* Icons for Technical Skills */
+  .skills ul li i {
+    margin-right: 10px;
+    color: #2575fc;
   }
   
   /* Footer */
