@@ -10,14 +10,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <!-- Home Section -->
-  <section id="home" class="gradient-bg">
+<!-- Home Section -->
+<section id="home" class="gradient-bg">
     <div class="container">
-      <h1>Ahmed Mahfouz</h1>
+      <h1>Ahmed Mahfouz <i class="fas fa-code"></i></h1> <!-- Code icon -->
       <p class="tagline">DevOps Engineer | Cloud Native Engineer | Linux Admin</p>
       <a href="#about" class="btn">Learn More About Me</a>
     </div>
-  </section>
+</section>
 
   <!-- About Section -->
   <section id="about">
@@ -79,37 +79,35 @@
     <div class="container">
       <h2>Blog</h2>
       <div class="blog-post">
-        <h3>Upgrade Rancher and downstream Kuberenetes Clusters</h3>
+        <h3>Upgrade Rancher and downstream Kubernetes Clusters</h3>
         <p>Learn how to Upgrade Rancher UI and the downstream clusters.</p>
         <a href="https://maize-clutch-5db.notion.site/Action-Plan-for-Upgrading-Rancher-from-v2-7-3-to-v2-10-2-and-Kubernetes-Clusters-from-v1-25-x-to-v1--18ec039e0c1c805a9c41ffabdba2413e?pvs=74" class="btn" target="_blank">Read More</a>
       </div>
       <div class="blog-post">
-        <h3>Istio Service Mesh Notes.</h3>
+        <h3>Istio Service Mesh Notes</h3>
         <p>Study note for Istio Service Mesh.</p>
         <a href="https://maize-clutch-5db.notion.site/Istio-10ac039e0c1c800189b3d05358d6a62c" class="btn" target="_blank">Read More</a>
       </div>
-          <!-- Hidden Blog Posts -->
+      <!-- Hidden Blog Posts -->
       <div class="hidden-blogs">
-          <div class="blog-post">
-            <h3>ArgoCD Multiple Cluster Management</h3>
-            <p>How to Manage Multiple Kuberentes Cluster by centralized ArgoCD.</p>
-            <a href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" class="btn" target="_blank">Read More</a>
-          </div>
-          <div class="blog-post">
-            <h3>Rabbit MQ</h3>
-            <p>Study Note for RabbitMQ.</p>
-            <a href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" class="btn" target="_blank">Read More</a>
-          </div>
-          <div class="blog-post">
-            <h3>GitLab Monitoring System</h3>
-            <p>Configure Gitlab Prometheus to send Metrics to externel Metrics collector.</p>
-            <a href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" class="btn" target="_blank">Read More</a>
-          </div>
+        <div class="blog-post">
+          <h3>ArgoCD Multiple Cluster Management</h3>
+          <p>How to Manage Multiple Kubernetes Clusters by centralized ArgoCD.</p>
+          <a href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" class="btn" target="_blank">Read More</a>
         </div>
-    
-        <!-- View More Button -->
-        <button id="view-more-btn" class="btn">View More</button>
+        <div class="blog-post">
+          <h3>RabbitMQ</h3>
+          <p>Study Note for RabbitMQ.</p>
+          <a href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" class="btn" target="_blank">Read More</a>
+        </div>
+        <div class="blog-post">
+          <h3>GitLab Monitoring System</h3>
+          <p>Configure GitLab Prometheus to send Metrics to external Metrics collector.</p>
+          <a href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" class="btn" target="_blank">Read More</a>
+        </div>
       </div>
+      <!-- View More Button -->
+      <button id="view-more-btn" class="btn">View More</button>
     </div>
   </section>
 
@@ -118,7 +116,7 @@
     <div class="container">
       <h2>Resume</h2>
       <p>Download my resume to learn more about my experience and skills.</p>
-      <a href="resume.pdf" class="btn" download>Download Resume</a>
+      <a href="resume.pdf" class="btn" target="_blank" download>Download Resume</a>
     </div>
   </section>
 
@@ -126,15 +124,15 @@
   <section id="contact">
     <div class="container">
       <h2>Contact Me</h2>
-      <form  action="https://formspree.io/f/xgvodowb" method="post">
+      <form action="https://formspree.io/f/xgvodowb" method="post">
         <label>
-            Your email:
-            <input type="email" name="email">
-          </label>
-          <label>
-            Your message:
-            <textarea name="message"></textarea>
-          </label>
+          Your email:
+          <input type="email" name="email">
+        </label>
+        <label>
+          Your message:
+          <textarea name="message"></textarea>
+        </label>
         <button type="submit" class="btn">Send Message</button>
       </form>
     </div>
