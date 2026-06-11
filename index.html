@@ -3,152 +3,777 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmed Mahfouz - DevOps Engineer</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Ahmed Mahfouz — DevOps Engineer</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:         #0b0f1a;
+      --bg2:        #0f1625;
+      --bg3:        #141c30;
+      --surface:    #1a2340;
+      --border:     #243050;
+      --cyan:       #00d4ff;
+      --cyan-dim:   rgba(0,212,255,.15);
+      --cyan-glow:  rgba(0,212,255,.35);
+      --text:       #e2e8f0;
+      --muted:      #7b8db0;
+      --white:      #ffffff;
+      --radius:     12px;
+      --transition: .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* ── SCROLLBAR ───────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+      background: rgba(11,15,26,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+    }
+    nav.scrolled { border-color: var(--border); }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem;
+      color: var(--cyan);
+      letter-spacing: .05em;
+    }
+    .nav-logo span { color: var(--muted); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--cyan);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    #home {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    /* animated grid background */
+    #home::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .4;
+      animation: gridDrift 20s linear infinite;
+    }
+    @keyframes gridDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 48px 48px; }
+    }
+    /* radial fade so edges disappear */
+    #home::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 40%, var(--bg) 100%);
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan-glow);
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px; background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse 1.8s ease infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(.7); }
+    }
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      color: var(--white);
+      animation: fadeUp .6s .1s ease both;
+    }
+    .hero-name .accent { color: var(--cyan); }
+    .hero-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(.85rem, 2vw, 1.1rem);
+      color: var(--muted);
+      margin: 1.2rem 0 2.4rem;
+      min-height: 1.6em;
+      animation: fadeUp .6s .2s ease both;
+    }
+    #typed-cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: var(--cyan);
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink .9s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .hero-cta {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp .6s .3s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: var(--muted); font-size: .75rem; letter-spacing: .1em;
+      text-transform: uppercase;
+      animation: fadeUp 1s .6s ease both;
+    }
+    .hero-scroll .arrow {
+      width: 22px; height: 22px;
+      border-right: 2px solid var(--cyan);
+      border-bottom: 2px solid var(--cyan);
+      transform: rotate(45deg);
+      animation: bounce 1.4s ease infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ── BUTTONS ─────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.8rem;
+      border-radius: var(--radius);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--bg);
+      box-shadow: 0 0 0 0 var(--cyan-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px var(--cyan-glow);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTIONS ────────────────────────────────────────── */
+    section { padding: 7rem 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      color: var(--cyan);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 1px;
+      background: var(--cyan);
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: .6rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────────── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+    .what-i-do h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .what-i-do ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .what-i-do li {
+      display: flex; align-items: flex-start; gap: .75rem;
+      color: var(--text); font-size: .95rem;
+    }
+    .what-i-do li::before {
+      content: '▸';
+      color: var(--cyan);
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+
+    /* ── SKILLS ──────────────────────────────────────────── */
+    #skills { background: var(--bg); }
+    .skills-categories { display: flex; flex-direction: column; gap: 2.5rem; }
+    .skill-category h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .5rem 1.1rem;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: .88rem;
+      font-weight: 500;
+      transition: all var(--transition);
+    }
+    .chip i { color: var(--cyan); font-size: .9rem; }
+    .chip:hover {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--cyan-dim);
+    }
+
+    /* ── PROJECTS ────────────────────────────────────────── */
+    #projects { background: var(--bg2); }
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+    }
+    .project-card:hover { border-color: var(--cyan-glow); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.4); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-icon {
+      width: 44px; height: 44px;
+      background: var(--cyan-dim);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cyan); font-size: 1.2rem;
+    }
+    .project-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .project-card p { color: var(--muted); font-size: .92rem; flex: 1; }
+    .project-card .btn { align-self: flex-start; margin-top: .5rem; }
+
+    /* ── BLOG ────────────────────────────────────────────── */
+    #blog { background: var(--bg); }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+    .blog-card:hover { border-color: var(--cyan-glow); transform: translateY(-3px); }
+    .blog-card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--cyan);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .blog-card h3 { font-size: 1rem; font-weight: 600; color: var(--white); line-height: 1.4; }
+    .blog-card p { font-size: .88rem; color: var(--muted); flex: 1; }
+    .blog-card .read-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--cyan); font-size: .85rem; font-weight: 600;
+      margin-top: .25rem;
+    }
+    .hidden-blogs { display: none; }
+    .hidden-blogs.visible { display: contents; }
+    #view-more-btn { display: block; margin: 2rem auto 0; }
+
+    /* ── RESUME ──────────────────────────────────────────── */
+    #resume {
+      background: var(--bg2);
+    }
+    .resume-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .resume-card h3 { font-size: 1.3rem; color: var(--white); font-weight: 600; }
+    .resume-card p { color: var(--muted); margin-top: .4rem; }
+
+    /* ── CONTACT ─────────────────────────────────────────── */
+    #contact { background: var(--bg); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info h3 { font-size: 1.2rem; color: var(--white); margin-bottom: .8rem; }
+    .contact-info p { color: var(--muted); font-size: .95rem; line-height: 1.7; }
+    .social-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .social-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      font-size: 1.1rem;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+    .social-icon:hover { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); transform: translateY(-2px); }
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    label { display: flex; flex-direction: column; gap: .4rem; font-size: .85rem; color: var(--muted); }
+    input, textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem;
+      transition: border-color var(--transition);
+      outline: none;
+      resize: vertical;
+    }
+    input:focus, textarea:focus { border-color: var(--cyan); }
+    textarea { min-height: 120px; }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-inner p { color: var(--muted); font-size: .85rem; }
+    .footer-inner .nav-logo { font-size: .85rem; }
+
+    /* ── SCROLL REVEAL ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .resume-card { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-<!-- Home Section -->
-<section id="home" class="gradient-bg">
-    <div class="container">
-      <h1>Ahmed Mahfouz <i class="fas fa-code"></i></h1> <!-- Code icon -->
-      <p class="tagline">DevOps Engineer | Cloud Native Engineer | Linux Admin</p>
-      <a href="#about" class="btn">Learn More About Me</a>
-    </div>
-</section>
 
-  <!-- About Section -->
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo"><span>~/</span>ahmed-mahfouz</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-inner">
+      <div class="hero-badge"><span class="dot"></span> Open to opportunities</div>
+      <h1 class="hero-name">Ahmed <span class="accent">Mahfouz</span></h1>
+      <p class="hero-tagline" id="typed-text"></p><span id="typed-cursor"></span>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary"><i class="fas fa-rocket"></i> View My Work</a>
+        <a href="resume.pdf" class="btn btn-ghost" download><i class="fas fa-file-arrow-down"></i> Download CV</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      Scroll
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
   <section id="about">
     <div class="container">
-      <h2>About Me</h2>
-      <p>Hi, I'm Ahmed Mahfouz, a passionate DevOps Engineer with expertise in CI/CD pipelines, Containerization, and Automation. I love solving complex problems and optimizing systems for scalability and reliability.</p>
-      <!-- What I Do in My Current Job -->
-      <div class="techskills">
-        <h3>What I Do</h3>
-        <ul>
-          <li>Work closely with software developers to optimize the SDLC.</li>
-          <li>Oversee the provisioning, scaling, and monitoring of Services and Apps.</li>
-          <li>Integrate security measures into every aspect.</li>
-          <li>Develop and maintain automation scripts and pipelines.</li>
-        </ul>
-      </div>
-  
-      <!-- Technical Skills -->
-      <div class="skills">
-        <h3>Technical Skills</h3>
-        <ul>
-          <li><i class="fab fa-jenkins"></i> <strong>CI/CD Tools:</strong>GitLab CI, GitHub Actions, Jenkins</li>
-          <li><i class="fab fa-docker"></i> <strong>Containerization:</strong> Docker, Kubernetes</li>
-          <li><i class="fas fa-code"></i> <strong>Infrastructure as Code:</strong> Terraform, Ansible</li>
-          <li><i class="fas fa-terminal"></i> <strong>Scripting:</strong>Bash, Python</li>
-          <li><i class="fas fa-chart-line"></i> <strong>Monitoring:</strong> Prometheus, Grafana, ELK Stack</li>
-          <li><i class="fa-solid fa-diagram-project"></i> <strong>Service Mesh:</strong> Istio</li>
-          <li><i class="fa-brands fa-linux"></i><strong>Operating Systems:</strong> Redhat, Ubuntu</li>
-          <li><i class="fa-solid fa-database"></i><strong>Database:</strong> MariaDB, Galera, Maxscale</li>
-          <li><i class="fa-solid fa-laptop"></i><strong>Virtualization:</strong> vSphere</li>
-          <li><i class="fa-brands fa-watchman-monitoring"></i><strong>Registry</strong> Harbor</li>
-        </ul>
+      <div class="section-label">About Me</div>
+      <h2>Building reliable systems,<br>one pipeline at a time</h2>
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p>Hi, I'm Ahmed — a passionate DevOps Engineer with deep expertise in CI/CD pipelines, containerization, and infrastructure automation. I thrive on solving complex operational challenges and engineering systems that scale.</p>
+          <p>My work sits at the intersection of development and operations: I bridge the gap between code and production, ensuring fast, secure, and reliable software delivery.</p>
+          <a href="#contact" class="btn btn-ghost" style="margin-top:.5rem">Get in touch</a>
+        </div>
+        <div class="what-i-do">
+          <h3>// What I Do</h3>
+          <ul>
+            <li>Work closely with software developers to optimize the SDLC.</li>
+            <li>Oversee the provisioning, scaling, and monitoring of services and apps.</li>
+            <li>Integrate security measures into every aspect of the pipeline.</li>
+            <li>Develop and maintain automation scripts and CI/CD pipelines.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
- 
 
-  <!-- Projects Section -->
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">Technical Skills</div>
+      <h2>My Toolkit</h2>
+      <p class="section-sub">The technologies and tools I work with day-to-day to build and maintain production-grade infrastructure.</p>
+      <div class="skills-categories reveal">
+        <div class="skill-category">
+          <h3>CI/CD & Automation</h3>
+          <div class="skill-chips">
+            <span class="chip"><i class="fab fa-jenkins"></i> Jenkins</span>
+            <span class="chip"><i class="fab fa-gitlab"></i> GitLab CI</span>
+            <span class="chip"><i class="fab fa-github"></i> GitHub Actions</span>
+            <span class="chip"><i class="fas fa-code"></i> Terraform</span>
+            <span class="chip"><i class="fas fa-cogs"></i> Ansible</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Containerization & Orchestration</h3>
+          <div class="skill-chips">
+            <span class="chip"><i class="fab fa-docker"></i> Docker</span>
+            <span class="chip"><i class="fas fa-dharmachakra"></i> Kubernetes</span>
+            <span class="chip"><i class="fa-solid fa-diagram-project"></i> Istio</span>
+            <span class="chip"><i class="fas fa-code-branch"></i> ArgoCD</span>
+            <span class="chip"><i class="fas fa-anchor"></i> Harbor Registry</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Monitoring & Observability</h3>
+          <div class="skill-chips">
+            <span class="chip"><i class="fas fa-chart-line"></i> Prometheus</span>
+            <span class="chip"><i class="fas fa-chart-area"></i> Grafana</span>
+            <span class="chip"><i class="fas fa-search"></i> ELK Stack</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Infrastructure & Systems</h3>
+          <div class="skill-chips">
+            <span class="chip"><i class="fab fa-linux"></i> RHEL / Ubuntu</span>
+            <span class="chip"><i class="fas fa-server"></i> vSphere</span>
+            <span class="chip"><i class="fas fa-database"></i> MariaDB / Galera</span>
+            <span class="chip"><i class="fas fa-terminal"></i> Bash</span>
+            <span class="chip"><i class="fab fa-python"></i> Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
   <section id="projects">
     <div class="container">
-      <h2>Projects</h2>
-      <div class="project-grid">
+      <div class="section-label">Projects</div>
+      <h2>What I've Built</h2>
+      <p class="section-sub">A selection of infrastructure and DevOps projects from my GitHub.</p>
+      <div class="project-grid reveal">
         <div class="project-card">
+          <div class="project-icon"><i class="fas fa-dharmachakra"></i></div>
           <h3>Automated Kubernetes Cluster Deployment</h3>
-          <p>Designed and implemented Kubernetes Cluster by KUBEADM via Terraform and Ansible.</p>
-          <a href="https://github.com/Mahfouz98/Ansible-Terraform-Kubernetes-Integration" class="btn" target="_blank">View Project</a>
+          <p>Designed and implemented a production-grade Kubernetes cluster using kubeadm, provisioned end-to-end with Terraform and Ansible for repeatable, declarative infrastructure.</p>
+          <a href="https://github.com/Mahfouz98/Ansible-Terraform-Kubernetes-Integration" class="btn btn-ghost" target="_blank"><i class="fab fa-github"></i> View on GitHub</a>
         </div>
         <div class="project-card">
+          <div class="project-icon"><i class="fas fa-rocket"></i></div>
           <h3>Complete CI/CD Web Application Deployment</h3>
-          <p>Deployed a scalable web application on AWS using Terraform.</p>
-          <a href="https://github.com/Mahfouz98/CI-CD-Application-Deployment" class="btn" target="_blank">View Project</a>
+          <p>Deployed a scalable web application on AWS using Terraform for infrastructure and a fully automated CI/CD pipeline for continuous delivery with zero-downtime releases.</p>
+          <a href="https://github.com/Mahfouz98/CI-CD-Application-Deployment" class="btn btn-ghost" target="_blank"><i class="fab fa-github"></i> View on GitHub</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Blog Section -->
+  <!-- BLOG -->
   <section id="blog">
     <div class="container">
-      <h2>Blog</h2>
-      <div class="blog-post">
-        <h3>Upgrade Rancher and downstream Kubernetes Clusters</h3>
-        <p>Learn how to Upgrade Rancher UI and the downstream clusters.</p>
-        <a href="https://maize-clutch-5db.notion.site/Action-Plan-for-Upgrading-Rancher-from-v2-7-3-to-v2-10-2-and-Kubernetes-Clusters-from-v1-25-x-to-v1--18ec039e0c1c805a9c41ffabdba2413e?pvs=74" class="btn" target="_blank">Read More</a>
-      </div>
-      <div class="blog-post">
-        <h3>Istio Service Mesh Notes</h3>
-        <p>Study note for Istio Service Mesh.</p>
-        <a href="https://maize-clutch-5db.notion.site/Istio-10ac039e0c1c800189b3d05358d6a62c" class="btn" target="_blank">Read More</a>
-      </div>
-      <!-- Hidden Blog Posts -->
-      <div class="hidden-blogs">
-        <div class="blog-post">
-          <h3>ArgoCD Multiple Cluster Management</h3>
-          <p>How to Manage Multiple Kubernetes Clusters by centralized ArgoCD.</p>
-          <a href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" class="btn" target="_blank">Read More</a>
+      <div class="section-label">Blog & Notes</div>
+      <h2>Writing & Knowledge Base</h2>
+      <p class="section-sub">Technical write-ups, study notes, and operational guides from the field.</p>
+      <div class="blog-grid reveal">
+
+        <a class="blog-card" href="https://maize-clutch-5db.notion.site/Action-Plan-for-Upgrading-Rancher-from-v2-7-3-to-v2-10-2-and-Kubernetes-Clusters-from-v1-25-x-to-v1--18ec039e0c1c805a9c41ffabdba2413e?pvs=74" target="_blank">
+          <div class="blog-card-tag">Kubernetes · Rancher</div>
+          <h3>Upgrade Rancher and downstream Kubernetes Clusters</h3>
+          <p>Step-by-step action plan for upgrading Rancher UI and downstream clusters safely.</p>
+          <span class="read-link">Read More <i class="fas fa-arrow-right"></i></span>
+        </a>
+
+        <a class="blog-card" href="https://maize-clutch-5db.notion.site/Istio-10ac039e0c1c800189b3d05358d6a62c" target="_blank">
+          <div class="blog-card-tag">Service Mesh</div>
+          <h3>Istio Service Mesh Notes</h3>
+          <p>Comprehensive study notes covering Istio architecture, traffic management, and mTLS.</p>
+          <span class="read-link">Read More <i class="fas fa-arrow-right"></i></span>
+        </a>
+
+        <div class="hidden-blogs">
+          <a class="blog-card" href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" target="_blank">
+            <div class="blog-card-tag">GitOps · ArgoCD</div>
+            <h3>ArgoCD Multiple Cluster Management</h3>
+            <p>How to manage multiple Kubernetes clusters from a centralized ArgoCD instance.</p>
+            <span class="read-link">Read More <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="blog-card" href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" target="_blank">
+            <div class="blog-card-tag">Messaging</div>
+            <h3>RabbitMQ 101</h3>
+            <p>Study notes covering RabbitMQ concepts, exchanges, queues, and bindings.</p>
+            <span class="read-link">Read More <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a class="blog-card" href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" target="_blank">
+            <div class="blog-card-tag">Monitoring</div>
+            <h3>GitLab Monitoring System</h3>
+            <p>Configure GitLab's built-in Prometheus to export metrics to an external collector.</p>
+            <span class="read-link">Read More <i class="fas fa-arrow-right"></i></span>
+          </a>
         </div>
-        <div class="blog-post">
-          <h3>RabbitMQ</h3>
-          <p>Study Note for RabbitMQ.</p>
-          <a href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" class="btn" target="_blank">Read More</a>
-        </div>
-        <div class="blog-post">
-          <h3>GitLab Monitoring System</h3>
-          <p>Configure GitLab Prometheus to send Metrics to external Metrics collector.</p>
-          <a href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" class="btn" target="_blank">Read More</a>
-        </div>
+
       </div>
-      <!-- View More Button -->
-      <button id="view-more-btn" class="btn">View More</button>
+      <button id="view-more-btn" class="btn btn-ghost">Show More <i class="fas fa-chevron-down"></i></button>
     </div>
   </section>
 
-  <!-- Resume Section -->
+  <!-- RESUME -->
   <section id="resume">
     <div class="container">
-      <h2>Resume</h2>
-      <p>Download my resume to learn more about my experience and skills.</p>
-      <a href="resume.pdf" class="btn" target="_blank" download>Download Resume</a>
+      <div class="section-label">Resume</div>
+      <h2>My CV</h2>
+      <div class="resume-card reveal">
+        <div>
+          <h3>Ahmed Mahfouz — DevOps Engineer</h3>
+          <p>CI/CD · Containerization · Cloud Native · Linux Admin · Infrastructure as Code</p>
+        </div>
+        <a href="resume.pdf" class="btn btn-primary" download><i class="fas fa-file-arrow-down"></i> Download Resume</a>
+      </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
+  <!-- CONTACT -->
   <section id="contact">
     <div class="container">
-      <h2>Contact Me</h2>
-      <form action="https://formspree.io/f/xgvodowb" method="post">
-        <label>
-          Your email:
-          <input type="email" name="email">
-        </label>
-        <label>
-          Your message:
-          <textarea name="message"></textarea>
-        </label>
-        <button type="submit" class="btn">Send Message</button>
-      </form>
+      <div class="section-label">Contact</div>
+      <h2>Let's Work Together</h2>
+      <div class="contact-grid reveal">
+        <div class="contact-info">
+          <h3>Get in touch</h3>
+          <p>Whether you have an opportunity, a project, or just want to talk DevOps — my inbox is always open.</p>
+          <div class="social-row">
+            <a class="social-icon" href="https://linkedin.com/in/ahmed-mahfouzz/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a class="social-icon" href="https://github.com/Mahfouz98" target="_blank"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <form action="https://formspree.io/f/xgvodowb" method="post">
+          <div class="form-row">
+            <label>
+              Name
+              <input type="text" name="name" placeholder="Your name" required>
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" placeholder="your@email.com" required>
+            </label>
+          </div>
+          <label>
+            Message
+            <textarea name="message" placeholder="What's on your mind?" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      <p>&copy; 2025 Ahmed Mahfouz. All rights reserved.</p>
-      <div class="social-links">
-        <a href="https://linkedin.com/in/ahmed-mahfouzz/" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/Mahfouz98" target="_blank"><i class="fab fa-github"></i></a>
+    <div class="footer-inner">
+      <div class="nav-logo"><span>~/</span>ahmed-mahfouz</div>
+      <p>© 2025 Ahmed Mahfouz. All rights reserved.</p>
+      <div class="social-row">
+        <a class="social-icon" href="https://linkedin.com/in/ahmed-mahfouzz/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a class="social-icon" href="https://github.com/Mahfouz98" target="_blank"><i class="fab fa-github"></i></a>
       </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    /* ── TYPED ANIMATION ─────────────────────────────────── */
+    const phrases = [
+      'DevOps Engineer',
+      'Cloud Native Engineer',
+      'Linux Admin',
+      'Infrastructure Automator',
+    ];
+    let pi = 0, ci = 0, deleting = false;
+    const el = document.getElementById('typed-text');
+    function type() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        el.textContent = phrase.slice(0, ++ci);
+        if (ci === phrase.length) { deleting = true; setTimeout(type, 1600); return; }
+      } else {
+        el.textContent = phrase.slice(0, --ci);
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+      }
+      setTimeout(type, deleting ? 55 : 90);
+    }
+    type();
+
+    /* ── NAV SCROLL STYLE ────────────────────────────────── */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ── SCROLL REVEAL ───────────────────────────────────── */
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    /* ── BLOG VIEW MORE ──────────────────────────────────── */
+    const btn = document.getElementById('view-more-btn');
+    const hidden = document.querySelector('.hidden-blogs');
+    btn.addEventListener('click', () => {
+      hidden.classList.toggle('visible');
+      btn.innerHTML = hidden.classList.contains('visible')
+        ? 'Show Less <i class="fas fa-chevron-up"></i>'
+        : 'Show More <i class="fas fa-chevron-down"></i>';
+    });
+  </script>
 </body>
 </html>
