@@ -88,7 +88,6 @@
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
-    /* animated grid background */
     #home::before {
       content: '';
       position: absolute; inset: 0;
@@ -103,7 +102,6 @@
       from { background-position: 0 0; }
       to   { background-position: 48px 48px; }
     }
-    /* radial fade so edges disappear */
     #home::after {
       content: '';
       position: absolute; inset: 0;
@@ -363,6 +361,83 @@
     }
     .project-card p { color: var(--muted); font-size: .92rem; flex: 1; }
     .project-card .btn { align-self: flex-start; margin-top: .5rem; }
+
+    /* ── FEATURED PROJECTS ───────────────────────────────── */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .featured-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem;
+      display: flex; flex-direction: column; gap: 1.1rem;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .featured-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+    }
+    .featured-card:hover { border-color: var(--cyan-glow); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.4); }
+    .featured-card:hover::before { transform: scaleX(1); }
+    .featured-card-header {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+    }
+    .featured-icon {
+      width: 48px; height: 48px;
+      background: var(--cyan-dim);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cyan); font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .featured-card-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      color: var(--cyan);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      border: 1px solid var(--cyan-glow);
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .featured-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.35;
+    }
+    .featured-card p { color: var(--muted); font-size: .92rem; flex: 1; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tech-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--text);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: .3rem .65rem;
+      border-radius: 6px;
+    }
+    .more-projects-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
 
     /* ── BLOG ────────────────────────────────────────────── */
     #blog { background: var(--bg); }
@@ -638,7 +713,94 @@
     <div class="container">
       <div class="section-label">Projects</div>
       <h2>What I've Built</h2>
-      <p class="section-sub">A selection of infrastructure and DevOps projects from my GitHub.</p>
+      <p class="section-sub">Production systems and platform engineering work from my role as a DevOps Engineer.</p>
+
+      <div class="featured-grid reveal">
+
+        <div class="featured-card">
+          <div class="featured-card-header">
+            <div class="featured-icon"><i class="fas fa-microchip"></i></div>
+            <span class="featured-card-badge">AI Platform</span>
+          </div>
+          <h3>AI Inference Platform — vLLM + Vector DB on GPU-Accelerated Kubernetes</h3>
+          <p>Architected an end-to-end AI inference platform serving multiple LLMs via vLLM on NVIDIA GPUs, backed by a vector database and Redis for caching and retrieval. Migrated the entire stack from Docker Compose to a fully GitOps-driven Kubernetes deployment with ArgoCD and Image Updater for automated, zero-touch model and image rollouts.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">vLLM</span>
+            <span class="tech-tag">NVIDIA GPU</span>
+            <span class="tech-tag">Vector DB</span>
+            <span class="tech-tag">Redis</span>
+            <span class="tech-tag">Kubernetes</span>
+            <span class="tech-tag">ArgoCD</span>
+            <span class="tech-tag">Image Updater</span>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-card-header">
+            <div class="featured-icon"><i class="fas fa-server"></i></div>
+            <span class="featured-card-badge">Platform Migration</span>
+          </div>
+          <h3>Enterprise Environment Migration — 20+ Services</h3>
+          <p>Led the end-to-end migration of a production environment of 20+ services to a new platform, including TeamCity and Nexus Artifactory for CI/build, dual-cluster PostgreSQL on Crunchy Data with full replication for high availability, Kafka for event streaming, and MinIO for object storage — delivered with zero data loss.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">TeamCity</span>
+            <span class="tech-tag">Nexus Artifactory</span>
+            <span class="tech-tag">PostgreSQL / Crunchy Data</span>
+            <span class="tech-tag">Kafka</span>
+            <span class="tech-tag">MinIO</span>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-card-header">
+            <div class="featured-icon"><i class="fas fa-layer-group"></i></div>
+            <span class="featured-card-badge">GitOps</span>
+          </div>
+          <h3>Kubernetes Manifests → Kustomize + Automated Image Updates</h3>
+          <p>Refactored a production Kubernetes deployment from raw manifests to Kustomize, introducing a base/overlay structure for environment-specific configs across dev, staging, and prod. Enabled ArgoCD Image Updater to automatically deploy new images the moment a build succeeds, closing the loop on continuous delivery with zero manual intervention.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Kubernetes</span>
+            <span class="tech-tag">Kustomize</span>
+            <span class="tech-tag">ArgoCD</span>
+            <span class="tech-tag">Image Updater</span>
+            <span class="tech-tag">GitOps</span>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-card-header">
+            <div class="featured-icon"><i class="fas fa-lock"></i></div>
+            <span class="featured-card-badge">Security</span>
+          </div>
+          <h3>HashiCorp Vault — Cross-Cluster Secret Injection & Auto-Unseal</h3>
+          <p>Designed a multi-cluster secrets management architecture using HashiCorp Vault, including cross-cluster secret injection via the Vault Agent Injector, Vault Secret Operator (VSO) for Kubernetes-native secret syncing, and Auto-Unseal using a secondary Vault cluster as the Transit Seal backend for resilient, hands-off recovery.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">HashiCorp Vault</span>
+            <span class="tech-tag">Vault Agent Injector</span>
+            <span class="tech-tag">VSO</span>
+            <span class="tech-tag">Transit Seal</span>
+            <span class="tech-tag">Kubernetes</span>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-card-header">
+            <div class="featured-icon"><i class="fas fa-database"></i></div>
+            <span class="featured-card-badge">Database</span>
+          </div>
+          <h3>MariaDB Galera Cluster with MaxScale Load Balancing</h3>
+          <p>Implemented a highly available MariaDB Galera multi-master cluster with MaxScale for intelligent query routing and load balancing, ensuring synchronous replication and seamless failover for critical production workloads.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">MariaDB</span>
+            <span class="tech-tag">Galera Cluster</span>
+            <span class="tech-tag">MaxScale</span>
+            <span class="tech-tag">High Availability</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="more-projects-label">// Open Source & Personal Projects</div>
       <div class="project-grid reveal">
         <div class="project-card">
           <div class="project-icon"><i class="fas fa-dharmachakra"></i></div>
