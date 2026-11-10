@@ -1,0 +1,88 @@
+# Quality gates for the portfolio, plus an optional gated deploy.
+#
+#   validate ──┐
+#              ├──> deploy (only when the repo variable DEPLOY_WITH_ACTIONS is "true")
+#   lighthouse ┘
+#
+# By default GitHub Pages keeps publishing straight from the main branch and this
+# workflow only reports. To make the checks *gate* the deploy:
+#   1. Settings > Pages > Build and deployment > Source: "GitHub Actions"
+#   2. Settings > Secrets and variables > Actions > Variables: DEPLOY_WITH_ACTIONS = true
+#
+# The hero panel on the site reads these jobs live from the GitHub API.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Validate HTML
+        run: npx --yes html-validate@11.21.0 index.html 404.html resume/resume.html
+      - name: Check local links, assets and anchors
+        run: node scripts/check-links.mjs
+
+  lighthouse:
+    name: lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Lighthouse budgets (see .lighthouserc.json)
+        run: |
+          npx --yes @lhci/cli@0.16.0 collect
+          npx --yes @lhci/cli@0.16.0 assert
+
+  deploy:
+    name: deploy
+    needs: [validate, lighthouse]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.DEPLOY_WITH_ACTIONS == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Assemble the site (only what should be public)
+        run: |
+          mkdir _site
+          cp -r index.html 404.html favicon.svg favicon.png resume.pdf robots.txt sitemap.xml assets _site/
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

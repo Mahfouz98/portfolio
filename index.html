@@ -1,1074 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ahmed Mahfouz — DevOps Engineer</title>
-<meta name="description" content="Ahmed Mahfouz — DevOps Engineer specializing in CI/CD pipelines, Kubernetes, and infrastructure automation." />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-/* ============ TOKENS — "Mission Control" ============ */
-:root{
-  --black:#000000;
-  --panel:#0a0a0b;
-  --panel-2:#101012;
-  --line:rgba(255,255,255,.08);
-  --amber:#ffb000;          /* phosphor terminal amber */
-  --amber-dim:rgba(255,176,0,.16);
-  --green:#3ddc84;          /* healthy status */
-  --cyan:#39c5cf;           /* secondary data accent */
-  --red:#ff5f56;
-  --text:#eceae4;
-  --muted:#84817a;
-  --display:'Chakra Petch',sans-serif;
-  --body:'IBM Plex Sans',sans-serif;
-  --mono:'IBM Plex Mono',monospace;
-  --ease-out:cubic-bezier(.22,1,.36,1);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-html,body{background:var(--black);color:var(--text);font-family:var(--body);overflow-x:hidden}
-::selection{background:var(--amber);color:#000}
-a{color:inherit;text-decoration:none}
-ul{list-style:none}
-button,input,textarea{font:inherit;color:inherit}
-button{border:none;background:none;cursor:pointer}
+<meta name="description" content="Ahmed Mahfouz is a DevOps engineer in Cairo building GitOps-driven Kubernetes platforms, CI/CD pipelines, secrets management and GPU-accelerated AI infrastructure.">
 
-@media (hover:hover) and (pointer:fine){
-  body.cursor-on, body.cursor-on a, body.cursor-on button{cursor:none}
-}
+<!-- Security: everything this page loads comes from this repo. The only network
+     calls are to the GitHub API (live pipeline + repo stats) and Formspree (contact form).
+     If you add a third-party script, font or embed, allow its origin here or it will be blocked. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com https://formspree.io; form-action https://formspree.io; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 
-/* ============ BACKGROUND ============ */
-.bg-grid{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,176,0,.05) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,176,0,.05) 1px,transparent 1px),
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:288px 288px,288px 288px,36px 36px,36px 36px;
-  mask-image:radial-gradient(460px 460px at var(--mx,50%) var(--my,35%),rgba(0,0,0,.95),rgba(0,0,0,.16) 62%,rgba(0,0,0,.06));
-  -webkit-mask-image:radial-gradient(460px 460px at var(--mx,50%) var(--my,35%),rgba(0,0,0,.95),rgba(0,0,0,.16) 62%,rgba(0,0,0,.06));
-}
-#glow{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen}
+<link rel="canonical" href="https://mahfouz98.github.io/portfolio/">
+<meta name="theme-color" content="#060606">
+<meta name="color-scheme" content="dark">
 
-/* ============ CURSOR — HUD reticle ============ */
-.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);display:none}
-@media (hover:hover) and (pointer:fine){.cursor-dot,.cursor-ring{display:block}}
-.cursor-dot{
-  width:6px;height:6px;border-radius:50%;background:var(--amber);
-  box-shadow:0 0 14px rgba(255,176,0,.9);
-}
-.cursor-ring{
-  width:40px;height:40px;border-radius:8px;
-  border:1px solid rgba(255,176,0,.45);
-  background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.12),rgba(255,176,0,.06) 50%,transparent 72%);
-  transition:width .35s var(--ease-out),height .35s var(--ease-out),border-color .3s,border-radius .35s var(--ease-out);
-}
-/* reticle corner ticks */
-.cursor-ring::before,.cursor-ring::after{
-  content:'';position:absolute;width:8px;height:8px;border-color:var(--amber);border-style:solid;
-  transition:opacity .3s;
-}
-.cursor-ring::before{top:-3px;left:-3px;border-width:2px 0 0 2px}
-.cursor-ring::after{bottom:-3px;right:-3px;border-width:0 2px 2px 0}
-.cursor-ring.is-hover{width:86px;height:86px;border-radius:14px;border-color:var(--amber)}
-.cursor-ring .cursor-label{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--amber);opacity:0;transition:opacity .25s;
-}
-.cursor-ring.is-hover .cursor-label{opacity:1}
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Ahmed Mahfouz">
+<meta property="og:title" content="Ahmed Mahfouz — DevOps Engineer">
+<meta property="og:description" content="GitOps-driven Kubernetes platforms, CI/CD pipelines, secrets management and GPU-accelerated AI infrastructure.">
+<meta property="og:url" content="https://mahfouz98.github.io/portfolio/">
+<meta property="og:image" content="https://mahfouz98.github.io/portfolio/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ahmed Mahfouz — DevOps Engineer. Kubernetes, GitOps, AI infrastructure.">
+<meta name="twitter:card" content="summary_large_image">
 
-/* ============ NAV ============ */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px clamp(20px,4vw,56px);
-  border-bottom:1px solid transparent;
-  transition:background .45s var(--ease-out),padding .45s var(--ease-out),border-color .45s;
-}
-.nav.scrolled{
-  background:rgba(4,4,5,.78);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom-color:var(--line);
-  padding-top:12px;padding-bottom:12px;
-}
-.nav-logo{font-family:var(--display);font-weight:700;font-size:1rem;letter-spacing:.04em;display:flex;align-items:center;gap:10px}
-.nav-logo .status{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.35}}
-.nav-logo em{font-style:normal;color:var(--amber)}
-.nav-links{display:flex;gap:32px}
-.nav-links a{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
-  position:relative;transition:color .25s;
-}
-.nav-links a::before{content:'/ ';color:var(--amber);opacity:0;transition:opacity .25s}
-.nav-links a:hover{color:var(--text)}
-.nav-links a:hover::before{opacity:1}
-.nav-cta{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
-  color:#000;background:var(--amber);padding:10px 18px;border-radius:6px;font-weight:600;
-  transition:transform .3s var(--ease-out),box-shadow .3s;display:inline-block;
-}
-.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,176,0,.35)}
-.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px}
-.nav-burger span{width:22px;height:2px;background:var(--text);transition:transform .3s,opacity .3s}
+<link rel="icon" href="favicon.png" type="image/png" sizes="512x512">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
-/* ============ HERO ============ */
-.hero{
-  position:relative;z-index:2;min-height:100svh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:150px clamp(20px,4vw,56px) 120px;
-  perspective:1200px;
-}
-.hero-term{
-  font-family:var(--mono);font-size:.82rem;color:var(--muted);margin-bottom:24px;min-height:1.4em;
-}
-.hero-term .prompt{color:var(--green)}
-.hero-term .cmd{color:var(--text)}
-.hero-term .caret{display:inline-block;width:9px;height:1.1em;background:var(--amber);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.hero-title{
-  font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(2.7rem,9vw,7.6rem);line-height:.98;letter-spacing:-.01em;
-}
-.hero-title .line{display:block;overflow:hidden;padding-bottom:.07em}
-.hero-title .char{display:inline-block;transform:translateY(115%);will-change:transform}
-.hero-title .accent{color:transparent;-webkit-text-stroke:1.5px var(--amber)}
-.hero-roles{
-  display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;opacity:0;transform:translateY(20px);
-}
-.hero-roles li{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
-  border:1px solid var(--line);border-radius:6px;padding:8px 14px;color:var(--muted);
-  display:flex;align-items:center;gap:8px;background:rgba(10,10,11,.6);
-}
-.hero-roles li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-.hero-sub{
-  margin-top:26px;max-width:52ch;color:var(--muted);font-weight:300;
-  font-size:clamp(.95rem,1.4vw,1.1rem);line-height:1.75;
-  opacity:0;transform:translateY(20px);
-}
-.hero-sub strong{color:var(--text);font-weight:500}
-.hero-actions{display:flex;gap:16px;margin-top:38px;flex-wrap:wrap;opacity:0;transform:translateY(20px)}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--amber);color:#000;font-weight:600;padding:15px 28px;border-radius:8px;
-  font-family:var(--mono);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
-  transition:box-shadow .35s,filter .3s;will-change:transform;
-}
-.btn-primary:hover{box-shadow:0 12px 44px rgba(255,176,0,.4);filter:brightness(1.08)}
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:15px 28px;border-radius:8px;border:1px solid var(--line);color:var(--muted);
-  font-family:var(--mono);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
-  transition:border-color .3s,color .3s;will-change:transform;
-}
-.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+<link rel="preload" href="assets/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
 
-/* floating pod cards */
-.hero-float{
-  position:absolute;z-index:-1;border-radius:12px;border:1px solid var(--line);
-  background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,0) 60%),var(--panel);
-  font-family:var(--mono);font-size:.66rem;color:var(--muted);
-  padding:14px 16px;transform-style:preserve-3d;will-change:transform;
-  box-shadow:0 30px 80px rgba(0,0,0,.6);
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ahmed Mahfouz",
+  "jobTitle": "DevOps Engineer",
+  "url": "https://mahfouz98.github.io/portfolio/",
+  "image": "https://mahfouz98.github.io/portfolio/assets/img/og.png",
+  "address": { "@type": "PostalAddress", "addressLocality": "Cairo", "addressCountry": "EG" },
+  "worksFor": { "@type": "Organization", "name": "Misr Technology Services" },
+  "alumniOf": [
+    { "@type": "EducationalOrganization", "name": "Information Technology Institute (ITI)" },
+    { "@type": "CollegeOrUniversity", "name": "Modern Academy for Engineering and Technology" }
+  ],
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Red Hat Certified System Administrator (RHCSA)",
+    "url": "https://www.credly.com/badges/278dd8e0-fe10-4dec-b3b4-7d16db802bb7/public_url"
+  },
+  "knowsAbout": ["Kubernetes", "GitOps", "Argo CD", "CI/CD", "HashiCorp Vault", "Terraform", "Ansible", "Linux", "vLLM", "Observability"],
+  "sameAs": ["https://github.com/Mahfouz98", "https://www.linkedin.com/in/ahmed-mahfouzz/"]
 }
-.hero-float b{display:flex;align-items:center;gap:8px;color:var(--text);font-weight:500;margin-bottom:6px;letter-spacing:.06em}
-.hero-float b::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-.hero-float span{display:block;line-height:1.6}
-.hero-float .amber{color:var(--amber)}
-.float-1{top:17%;right:6%}
-.float-2{top:46%;right:22%}
-.float-3{bottom:24%;right:9%}
-
-/* ============ PIPELINE (signature) ============ */
-.pipeline{
-  position:absolute;left:clamp(20px,4vw,56px);right:clamp(20px,4vw,56px);bottom:38px;
-  opacity:0;
-}
-.pipeline svg{width:100%;height:84px;display:block;overflow:visible}
-.pipe-line{stroke:rgba(255,255,255,.14);stroke-width:2;fill:none}
-.pipe-line-lit{stroke:var(--amber);stroke-width:2;fill:none;filter:drop-shadow(0 0 6px rgba(255,176,0,.7))}
-.pipe-node circle{fill:#0a0a0b;stroke:rgba(255,255,255,.25);stroke-width:2;transition:stroke .3s,filter .3s}
-.pipe-node text{fill:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;text-anchor:middle;transition:fill .3s}
-.pipe-node.lit circle{stroke:var(--green);filter:drop-shadow(0 0 8px rgba(61,220,132,.8))}
-.pipe-node.lit text{fill:var(--text)}
-.pipe-packet{fill:var(--amber);filter:drop-shadow(0 0 8px rgba(255,176,0,.9))}
-
-/* ============ MARQUEE ============ */
-.marquee{
-  position:relative;z-index:2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  padding:22px 0;overflow:hidden;background:rgba(8,8,9,.6);white-space:nowrap;
-}
-.marquee-track{display:inline-flex;gap:56px;will-change:transform}
-.marquee span{
-  font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2.2vw,1.7rem);
-  text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
-}
-.marquee span em{font-style:normal;color:var(--amber)}
-
-/* ============ SECTION SHELL ============ */
-.section{position:relative;z-index:2;padding:clamp(90px,12vw,160px) clamp(20px,4vw,56px)}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:clamp(40px,6vw,70px)}
-.section-eyebrow{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--amber);margin-bottom:16px;
-}
-.section-eyebrow::before{content:'$ '}
-.section-title{
-  font-family:var(--display);font-weight:700;text-transform:uppercase;
-  font-size:clamp(1.9rem,5vw,3.9rem);line-height:1.04;letter-spacing:-.005em;
-}
-.section-title .line{display:block;overflow:hidden;padding-bottom:.08em}
-.section-title .char{display:inline-block;transform:translateY(115%);will-change:transform}
-.section-note{max-width:34ch;color:var(--muted);font-weight:300;line-height:1.7;font-size:.92rem;font-family:var(--mono)}
-
-/* ============ WHAT I DO ============ */
-.duties{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.duty{
-  background:var(--panel);padding:30px 26px;position:relative;
-  transition:background .35s;
-}
-.duty:hover{background:var(--panel-2)}
-.duty i{
-  font-style:normal;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--amber);
-  display:block;margin-bottom:18px;
-}
-.duty h3{font-family:var(--display);font-weight:600;font-size:1.02rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:12px;line-height:1.35}
-.duty p{color:var(--muted);font-weight:300;font-size:.88rem;line-height:1.7}
-
-/* ============ STACK GRID ============ */
-.stack{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.node{
-  border:1px solid var(--line);border-radius:12px;background:var(--panel);
-  padding:20px;transition:border-color .35s,transform .45s var(--ease-out),box-shadow .35s;
-  will-change:transform;
-}
-.node:hover{border-color:rgba(255,176,0,.45);transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.5)}
-.node header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.node .cat{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.node .led{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:pulse 2.8s ease-in-out infinite}
-.node ul{display:flex;flex-wrap:wrap;gap:7px}
-.node li{
-  font-family:var(--mono);font-size:.74rem;color:var(--text);
-  background:rgba(255,255,255,.045);border:1px solid transparent;border-radius:6px;padding:5px 10px;
-  transition:border-color .25s,color .25s;
-}
-.node:hover li{border-color:rgba(255,176,0,.2)}
-
-/* ============ PROJECTS ============ */
-.projects{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.project{
-  position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
-  background:var(--panel);min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;
-  transition:border-color .4s;will-change:transform;
-}
-.project:hover{border-color:rgba(255,176,0,.5)}
-.project-cover{position:absolute;inset:0;transition:transform .8s var(--ease-out);will-change:transform}
-.project:hover .project-cover{transform:scale(1.05)}
-.cover-k8s{background:
-  radial-gradient(110% 80% at 80% 12%,rgba(57,197,207,.28),transparent 55%),
-  radial-gradient(80% 70% at 12% 88%,rgba(255,176,0,.14),transparent 50%),
-  repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 34px),
-  repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 34px),
-  linear-gradient(180deg,#0c0d0f,#060607)}
-.cover-cicd{background:
-  radial-gradient(110% 80% at 18% 14%,rgba(255,176,0,.26),transparent 55%),
-  radial-gradient(80% 70% at 85% 85%,rgba(61,220,132,.12),transparent 50%),
-  repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 2px,transparent 2px 30px),
-  linear-gradient(180deg,#0c0c0e,#050506)}
-.project-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(0,0,0,.82))}
-.project-badge{
-  position:absolute;top:20px;left:20px;z-index:2;
-  font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--green);border:1px solid rgba(61,220,132,.35);border-radius:6px;padding:6px 12px;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(6px);display:flex;align-items:center;gap:8px;
-}
-.project-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2.2s ease-in-out infinite}
-.project-arrow{
-  position:absolute;top:18px;right:18px;z-index:2;width:44px;height:44px;border-radius:10px;
-  border:1px solid var(--line);display:grid;place-items:center;color:var(--amber);
-  background:rgba(0,0,0,.45);backdrop-filter:blur(6px);
-  transform:rotate(-45deg);opacity:0;transition:opacity .35s,transform .45s var(--ease-out);
-}
-.project:hover .project-arrow{opacity:1;transform:rotate(0)}
-.project-meta{position:relative;padding:26px;z-index:1}
-.project-name{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,1.8vw,1.5rem);text-transform:uppercase;line-height:1.2;letter-spacing:.01em}
-.project-desc{margin-top:10px;color:var(--muted);font-weight:300;font-size:.9rem;line-height:1.65;max-width:48ch}
-.project-tags{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
-.project-tags li{
-  font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--cyan);border:1px solid rgba(57,197,207,.3);border-radius:6px;padding:5px 10px;
-}
-
-/* ============ FEATURED WORK ============ */
-.featured{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.feat{
-  position:relative;border:1px solid var(--line);border-radius:16px;background:var(--panel);
-  padding:30px 28px;display:flex;flex-direction:column;gap:14px;overflow:hidden;
-  transition:border-color .4s,transform .45s var(--ease-out),box-shadow .35s;will-change:transform;
-}
-.feat:hover{border-color:rgba(255,176,0,.45);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.55)}
-.feat-hero{grid-column:1/-1}
-.feat-hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(90% 130% at 90% 0%,rgba(255,176,0,.10),transparent 55%),
-    radial-gradient(70% 100% at 6% 100%,rgba(57,197,207,.08),transparent 50%);
-}
-.feat-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.feat-badge{
-  font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--amber);border:1px solid rgba(255,176,0,.35);border-radius:6px;padding:6px 12px;
-}
-.feat-ns{font-family:var(--mono);font-size:.64rem;color:var(--muted);letter-spacing:.1em}
-.feat h3{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.7vw,1.4rem);text-transform:uppercase;line-height:1.32;letter-spacing:.01em;position:relative}
-.feat p{color:var(--muted);font-weight:300;font-size:.9rem;line-height:1.75;flex:1;position:relative;max-width:90ch}
-.feat .tags{display:flex;flex-wrap:wrap;gap:8px;position:relative}
-.feat .tags li{
-  font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--cyan);border:1px solid rgba(57,197,207,.3);border-radius:6px;padding:5px 10px;
-}
-
-/* ============ BLOG LOG STREAM (horizontal) ============ */
-.gallery-head{padding:clamp(90px,12vw,150px) clamp(20px,4vw,56px) 0;position:relative;z-index:2}
-.gallery-wrap{position:relative;z-index:2;overflow:hidden}
-.gallery-pin{height:100svh;display:flex;align-items:center}
-.gallery-track{display:flex;gap:clamp(18px,2.6vw,36px);padding:0 clamp(20px,4vw,56px);will-change:transform}
-.log-card{
-  position:relative;flex:0 0 auto;width:clamp(290px,34vw,470px);
-  border:1px solid var(--line);border-radius:14px;background:var(--panel);
-  padding:28px;display:flex;flex-direction:column;gap:16px;min-height:300px;
-  transition:border-color .35s,background .35s;
-}
-.log-card:hover{border-color:rgba(255,176,0,.45);background:var(--panel-2)}
-.log-line{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--muted);display:flex;gap:10px;align-items:center}
-.log-line .lvl{color:var(--green)}
-.log-card h3{font-family:var(--display);font-weight:600;font-size:1.2rem;text-transform:uppercase;line-height:1.3;letter-spacing:.01em}
-.log-card p{color:var(--muted);font-weight:300;font-size:.9rem;line-height:1.7;flex:1}
-.log-card .read{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);
-  display:inline-flex;align-items:center;gap:8px;
-}
-.log-card .read::after{content:'→';transition:transform .3s var(--ease-out)}
-.log-card:hover .read::after{transform:translateX(6px)}
-.log-img{height:84px;border-radius:8px;border:1px solid var(--line);overflow:hidden;position:relative}
-.log-img i{position:absolute;inset:-12%;display:block;will-change:transform}
-.li-1{background:radial-gradient(100% 100% at 25% 20%,rgba(57,197,207,.4),#0a0a0b 70%)}
-.li-2{background:radial-gradient(100% 100% at 75% 30%,rgba(255,176,0,.35),#0a0a0b 70%)}
-.li-3{background:conic-gradient(from 200deg at 50% 50%,#0a0a0b,rgba(61,220,132,.35),#0a0a0b 70%)}
-.li-4{background:radial-gradient(110% 110% at 50% 100%,rgba(255,95,86,.3),#0a0a0b 70%)}
-.li-5{background:linear-gradient(135deg,rgba(255,176,0,.3),#0a0a0b 65%),repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 1px,transparent 1px 18px)}
-.li-6{background:radial-gradient(100% 100% at 30% 80%,rgba(57,197,207,.38),#0a0a0b 70%)}
-.li-7{background:conic-gradient(from 40deg at 50% 50%,#0a0a0b,rgba(255,176,0,.32),#0a0a0b 65%)}
-.li-8{background:radial-gradient(110% 110% at 80% 20%,rgba(61,220,132,.32),#0a0a0b 70%)}
-.li-9{background:linear-gradient(115deg,rgba(57,197,207,.3),#0a0a0b 60%),repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 1px,transparent 1px 16px)}
-.li-10{background:radial-gradient(120% 90% at 50% 0%,rgba(255,95,86,.28),#0a0a0b 70%)}
-.log-line .sec{color:var(--amber)}
-
-/* ============ CONTACT ============ */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,70px);align-items:start}
-.contact-info p{color:var(--muted);font-weight:300;line-height:1.8;font-size:clamp(.98rem,1.4vw,1.12rem);margin-bottom:1.4em}
-.contact-info strong{color:var(--text);font-weight:500}
-.resume-card{
-  border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:26px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-}
-.resume-card div b{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:1rem;display:block;letter-spacing:.03em}
-.resume-card div span{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.08em}
-.terminal{
-  border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden;
-}
-.terminal-bar{
-  display:flex;align-items:center;gap:8px;padding:13px 16px;border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,.025);
-}
-.terminal-bar i{width:11px;height:11px;border-radius:50%;font-style:normal}
-.terminal-bar i:nth-child(1){background:var(--red)}
-.terminal-bar i:nth-child(2){background:var(--amber)}
-.terminal-bar i:nth-child(3){background:var(--green)}
-.terminal-bar span{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-left:8px;letter-spacing:.08em}
-.terminal form{padding:24px;display:flex;flex-direction:column;gap:18px}
-.terminal label{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:9px}
-.terminal label::before{content:'$ '}
-.terminal input,.terminal textarea{
-  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px;
-  padding:13px 15px;color:var(--text);font-family:var(--mono);font-size:.86rem;
-  outline:none;transition:border-color .3s,box-shadow .3s;resize:vertical;
-}
-.terminal textarea{min-height:130px}
-.terminal input:focus,.terminal textarea:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,176,0,.12)}
-.terminal .btn-primary{align-self:flex-start;border:none}
-
-/* ============ FOOTER ============ */
-.footer{
-  position:relative;z-index:2;border-top:1px solid var(--line);
-  padding:38px clamp(20px,4vw,56px);
-  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
-}
-.footer .socials{display:flex;gap:22px}
-.footer a{transition:color .25s}
-.footer a:hover{color:var(--amber)}
-.footer .up{color:var(--green)}
-
-/* ============ HELPERS ============ */
-.reveal{opacity:0;transform:translateY(36px);will-change:transform,opacity}
-
-/* ============ RESPONSIVE ============ */
-@media(max-width:1024px){
-  .duties{grid-template-columns:1fr 1fr}
-  .featured{grid-template-columns:1fr}
-  .projects{grid-template-columns:1fr}
-  .contact-grid{grid-template-columns:1fr}
-  .float-2{display:none}
-}
-@media(max-width:768px){
-  .nav-links{display:none}
-  .nav-burger{display:flex}
-  .nav.menu-open .nav-links{
-    display:flex;position:fixed;inset:0;background:rgba(0,0,0,.97);
-    flex-direction:column;align-items:center;justify-content:center;gap:32px;z-index:-1;
-  }
-  .nav.menu-open .nav-links a{font-size:1rem}
-  .nav.menu-open .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-  .nav.menu-open .nav-burger span:nth-child(2){opacity:0}
-  .nav.menu-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  .duties{grid-template-columns:1fr}
-  .section-head{flex-direction:column;align-items:flex-start}
-  .hero-float{display:none}
-  .pipeline svg{height:72px}
-  .pipe-node text{font-size:9px}
-}
-@media(max-width:480px){
-  .log-card{width:84vw}
-  .pipeline{bottom:26px}
-}
-
-/* ============ REDUCED MOTION ============ */
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
-  .hero-title .char,.section-title .char{transform:none!important}
-  .hero-roles,.hero-sub,.hero-actions,.pipeline,.reveal{opacity:1!important;transform:none!important}
-  .cursor-dot,.cursor-ring,#glow{display:none!important}
-}
-</style>
+</script>
+<script src="assets/js/site.js" defer></script>
 </head>
 <body>
 
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- shared SVG defs: arrowheads for the diagrams + the icon sprite -->
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 .8 7 4 0 7.2z" fill="#77746e"/></marker>
+    <marker id="ah-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 .8 7 4 0 7.2z" fill="#ffb000"/></marker>
+    <marker id="ah-c" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 .8 7 4 0 7.2z" fill="#39c5cf"/></marker>
+    <symbol id="i-ext" viewBox="0 0 16 16"><path d="M5.5 3.5h7v7M12.5 3.5 3.5 12.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 16 16"><path d="M2 8h11.5M9.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 2v11.5M4 9.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.6l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-x" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-star" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4 4.4.6-3.2 3.1.8 4.4L8 11.6l-3.95 2.1.8-4.4-3.2-3.1 4.4-.6z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
 <div class="bg-grid" aria-hidden="true"></div>
-<canvas id="glow" aria-hidden="true"></canvas>
+<div class="bg-glow" aria-hidden="true"></div>
 
-<div class="cursor-dot" aria-hidden="true"></div>
-<div class="cursor-ring" aria-hidden="true"><span class="cursor-label">Open</span></div>
-
-<!-- NAV -->
+<!-- ============ NAV ============ -->
 <header class="nav" id="nav">
-  <a class="nav-logo" href="#top" data-hover><span class="status" aria-hidden="true"></span>AHMED<em>.</em>MAHFOUZ</a>
-  <nav>
+  <a class="nav-logo" href="#top"><span class="led" aria-hidden="true"></span><span>ahmed<em>.</em>mahfouz</span></a>
+  <nav aria-label="Primary">
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about" data-hover>About</a></li>
-      <li><a href="#work" data-hover>Work</a></li>
-      <li><a href="#stack" data-hover>Stack</a></li>
-      <li><a href="#projects" data-hover>Open Source</a></li>
-      <li><a href="#blog" data-hover>Blog</a></li>
-      <li><a href="#contact" data-hover>Contact</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#career">Career</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#projects">Open source</a></li>
+      <li><a href="#blog">Notes</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
-  <div style="display:flex;align-items:center;gap:14px">
-    <a class="nav-cta" href="resume.pdf" target="_blank" download data-hover>Resume</a>
-    <button class="nav-burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+  <div class="nav-end">
+    <a class="btn btn-solid btn-sm" href="resume.pdf" download>Résumé</a>
+    <button class="nav-burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <p class="hero-term"><span class="prompt">ahmed@prod</span>:~$ <span class="cmd" id="typeCmd"></span><span class="caret" aria-hidden="true"></span></p>
+<main id="main">
 
-  <h1 class="hero-title">
-    <span class="line" data-split>Ahmed</span>
-    <span class="line accent" data-split>Mahfouz</span>
-  </h1>
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" data-path="~">
+  <div class="hero-copy">
+    <button class="hero-prompt" type="button" data-run="whoami" title="Open the console">
+      <span class="p-user">ahmed@prod</span><span class="p-sep">:~$</span> <span class="p-cmd" id="typeCmd">whoami</span><span class="caret" aria-hidden="true"></span>
+      <span class="p-hint" id="promptHint" hidden>this prompt is real — press <kbd>`</kbd> or click</span>
+    </button>
 
-  <ul class="hero-roles">
-    <li>DevOps Engineer</li>
-    <li>Cloud Native Engineer</li>
-    <li>Linux Admin</li>
+    <h1 class="hero-title">
+      <span class="line"><span>Ahmed</span></span>
+      <span class="line outline"><span>Mahfouz</span></span>
+    </h1>
+
+    <p class="hero-role">DevOps Engineer <i>/</i> Cloud Native <i>/</i> Linux</p>
+
+    <p class="hero-sub">
+      I design, automate and run the platforms software ships on:
+      <strong>GitOps-driven Kubernetes, CI/CD pipelines and GPU-accelerated AI infrastructure</strong>,
+      so releases are routine and production stays up.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#work">See production work <svg class="i" aria-hidden="true"><use href="#i-down"/></svg></a>
+      <a class="btn btn-ghost" href="resume.pdf" download>Download résumé</a>
+    </div>
+  </div>
+
+  <!-- Live pipeline: real status of this repository, read from the GitHub API by site.js -->
+  <aside class="deploy" id="deploy" aria-label="Live deployment status of this website">
+    <header class="deploy-bar">
+      <span class="deploy-title">portfolio <i>/</i> production</span>
+      <span class="chip" id="deployState" data-state="idle">pipeline</span>
+    </header>
+    <ol class="stages" id="stages">
+      <li class="stage" data-state="idle"><span class="stage-ico" aria-hidden="true"></span><span class="stage-name">commit</span><span class="stage-meta">main</span></li>
+      <li class="stage" data-state="idle"><span class="stage-ico" aria-hidden="true"></span><span class="stage-name">checks</span><span class="stage-meta">html · lighthouse</span></li>
+      <li class="stage" data-state="idle"><span class="stage-ico" aria-hidden="true"></span><span class="stage-name">deploy</span><span class="stage-meta">github pages</span></li>
+    </ol>
+    <footer class="deploy-foot">
+      <span id="deployMeta">This site ships through its own pipeline.</span>
+      <a id="deployLink" href="https://github.com/Mahfouz98/portfolio/actions" target="_blank" rel="noopener">view runs <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></a>
+    </footer>
+  </aside>
+
+  <dl class="facts">
+    <div><dt>Now</dt><dd>DevOps Engineer<br><span>Misr Technology Services</span></dd></div>
+    <div><dt>Based</dt><dd>Cairo, Egypt<br><span>UTC+2</span></dd></div>
+    <div><dt>Certified</dt><dd><a href="https://www.credly.com/badges/278dd8e0-fe10-4dec-b3b4-7d16db802bb7/public_url" target="_blank" rel="noopener">RHCSA <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></a><br><span>Red Hat</span></dd></div>
+    <div><dt>Focus</dt><dd>Kubernetes · GitOps<br><span>AI infrastructure</span></dd></div>
+  </dl>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about" data-path="~/about">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow"><button type="button" class="cmd" data-run="cat about.md">cat about.md</button></p>
+      <h2 class="section-title">What I do</h2>
+    </div>
+  </div>
+
+  <div class="about">
+    <div class="about-text reveal">
+      <p class="lead">I came to DevOps from the bottom of the stack.</p>
+      <p>Before pipelines and clusters I was a network engineer at Orange Egypt, working on Cisco and Juniper routing, GPON and IPTV head-end equipment in the data center. In 2023 I joined ITI's nine-month Cloud Architecture &amp; DevOps scholarship, and since 2024 I've been running production platforms at Misr Technology Services.</p>
+      <p>That path shapes how I work. I care about the whole delivery path, from the commit to the cluster to the network underneath it, and I'd rather automate a task once than do it by hand twice.</p>
+    </div>
+
+    <ul class="duties">
+      <li class="duty reveal">
+        <span class="duty-tag">sdlc</span>
+        <h3>Developer collaboration</h3>
+        <p>Working closely with software developers to optimize the development lifecycle end to end.</p>
+      </li>
+      <li class="duty reveal">
+        <span class="duty-tag">infra</span>
+        <h3>Provision, scale, monitor</h3>
+        <p>Provisioning, scaling and monitoring the services and applications that run in production.</p>
+      </li>
+      <li class="duty reveal">
+        <span class="duty-tag">sec</span>
+        <h3>Security by default</h3>
+        <p>Building security into every part of the platform and the delivery process.</p>
+      </li>
+      <li class="duty reveal">
+        <span class="duty-tag">auto</span>
+        <h3>Automation and pipelines</h3>
+        <p>Writing the automation and CI/CD pipelines that remove manual toil.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PRODUCTION WORK ============ -->
+<section class="section" id="work" data-path="~/work">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow"><button type="button" class="cmd" data-run="kubectl get deployments -n production">kubectl get deployments -n production</button></p>
+      <h2 class="section-title">Production work</h2>
+    </div>
+    <p class="section-note reveal">Platforms I've architected and operated on the job, running in production today.</p>
+  </div>
+
+  <div class="systems">
+
+    <article class="sys sys-wide reveal" data-name="ai-inference" data-kind="AI platform">
+      <div class="sys-body">
+        <div class="sys-top"><span class="badge">AI platform</span><span class="sys-ns">ns: production · gpu-pool</span></div>
+        <h3>AI inference platform: vLLM and a vector DB on GPU-accelerated Kubernetes</h3>
+        <p>Deployed an end-to-end AI inference platform serving multiple LLMs via vLLM on NVIDIA GPUs, backed by a vector database and Redis for caching and retrieval. Migrated the entire stack from Docker Compose to a fully GitOps-driven Kubernetes deployment with ArgoCD and Image Updater for automated, zero-touch model and image rollouts.</p>
+        <ul class="tags"><li>vLLM</li><li>NVIDIA GPU</li><li>Vector DB</li><li>Redis</li><li>Kubernetes</li><li>ArgoCD</li><li>Image Updater</li></ul>
+      </div>
+      <figure class="sys-fig">
+        <svg class="dia" viewBox="0 0 400 260" role="img" aria-labelledby="dia-ai-t dia-ai-d">
+          <title id="dia-ai-t">AI inference platform architecture</title>
+          <desc id="dia-ai-d">A new image tag in the registry is picked up by ArgoCD Image Updater, and ArgoCD syncs it into the production Kubernetes cluster. The cluster runs several vLLM model servers on an NVIDIA GPU pool, alongside a vector database for retrieval and Redis for caching.</desc>
+          <g class="n"><rect x="10" y="12" width="100" height="44" rx="6"/><text class="l" x="60" y="31">registry</text><text class="s" x="60" y="45">new image tag</text></g>
+          <g class="n"><rect x="140" y="12" width="120" height="44" rx="6"/><text class="l" x="200" y="31">image updater</text><text class="s" x="200" y="45">detects · updates</text></g>
+          <g class="n hot"><rect x="290" y="12" width="100" height="44" rx="6"/><text class="l" x="340" y="31">argo cd</text><text class="s" x="340" y="45">gitops sync</text></g>
+          <path class="e a" d="M110 34H138" marker-end="url(#ah-a)"/>
+          <path class="e a" d="M260 34H288" marker-end="url(#ah-a)"/>
+          <path class="e a" d="M340 56V92" marker-end="url(#ah-a)"/>
+          <path class="flow" d="M110 34H138M260 34H288M340 56V92"/>
+          <g class="g"><rect x="10" y="94" width="380" height="156" rx="8"/><text x="22" y="111">kubernetes · production</text></g>
+          <g class="g g-in"><rect x="22" y="122" width="226" height="116" rx="6"/><text x="32" y="138">gpu pool · nvidia</text></g>
+          <g class="n"><rect x="32" y="148" width="62" height="78" rx="6"/><text class="l" x="63" y="184">vLLM</text><text class="s" x="63" y="199">llm-a</text></g>
+          <g class="n"><rect x="104" y="148" width="62" height="78" rx="6"/><text class="l" x="135" y="184">vLLM</text><text class="s" x="135" y="199">llm-b</text></g>
+          <g class="n"><rect x="176" y="148" width="62" height="78" rx="6"/><text class="l" x="207" y="184">vLLM</text><text class="s" x="207" y="199">llm-n</text></g>
+          <g class="n"><rect x="262" y="122" width="116" height="52" rx="6"/><text class="l" x="320" y="145">vector db</text><text class="s" x="320" y="160">retrieval</text></g>
+          <g class="n"><rect x="262" y="186" width="116" height="52" rx="6"/><text class="l" x="320" y="209">redis</text><text class="s" x="320" y="224">cache</text></g>
+        </svg>
+      </figure>
+    </article>
+
+    <article class="sys reveal" data-name="platform-migration" data-kind="Platform migration">
+      <figure class="sys-fig">
+        <svg class="dia" viewBox="0 0 400 240" role="img" aria-labelledby="dia-mig-t dia-mig-d">
+          <title id="dia-mig-t">Environment migration</title>
+          <desc id="dia-mig-d">More than twenty services move from the legacy environment to a new platform made of TeamCity and Nexus for CI and artifacts, two PostgreSQL clusters on Crunchy Data with full replication, Kafka for event streaming and MinIO for object storage.</desc>
+          <g class="n"><rect x="8" y="92" width="92" height="56" rx="6"/><text class="l" x="54" y="116">legacy env</text><text class="s" x="54" y="132">20+ services</text></g>
+          <path class="e a" d="M100 120H132" marker-end="url(#ah-a)"/>
+          <path class="flow" d="M100 120H132"/>
+          <text class="el" x="54" y="168">zero data loss</text>
+          <g class="g"><rect x="134" y="10" width="258" height="222" rx="8"/><text x="146" y="27">new platform</text></g>
+          <g class="n"><rect x="148" y="38" width="104" height="44" rx="6"/><text class="l" x="200" y="57">teamcity</text><text class="s" x="200" y="71">ci · build</text></g>
+          <g class="n"><rect x="276" y="38" width="104" height="44" rx="6"/><text class="l" x="328" y="57">nexus</text><text class="s" x="328" y="71">artifacts</text></g>
+          <path class="e" d="M252 60H274" marker-end="url(#ah)"/>
+          <g class="n"><rect x="148" y="104" width="104" height="48" rx="6"/><text class="l" x="200" y="124">postgresql</text><text class="s" x="200" y="139">crunchy · a</text></g>
+          <g class="n"><rect x="276" y="104" width="104" height="48" rx="6"/><text class="l" x="328" y="124">postgresql</text><text class="s" x="328" y="139">crunchy · b</text></g>
+          <path class="e c" d="M254 128H274" marker-start="url(#ah-c)" marker-end="url(#ah-c)"/>
+          <text class="el c" x="264" y="98">full replication</text>
+          <g class="n"><rect x="148" y="174" width="104" height="44" rx="6"/><text class="l" x="200" y="193">kafka</text><text class="s" x="200" y="207">event streaming</text></g>
+          <g class="n"><rect x="276" y="174" width="104" height="44" rx="6"/><text class="l" x="328" y="193">minio</text><text class="s" x="328" y="207">object storage</text></g>
+        </svg>
+      </figure>
+      <div class="sys-body">
+        <div class="sys-top"><span class="badge">Platform migration</span><span class="sys-ns">20+ services · zero data loss</span></div>
+        <h3>Enterprise environment migration</h3>
+        <p>Led the end-to-end migration of a production environment of 20+ services to a new platform: TeamCity and Nexus Artifactory for CI and builds, dual-cluster PostgreSQL on Crunchy Data with full replication for high availability, Kafka for event streaming and MinIO for object storage. Delivered with zero data loss.</p>
+        <ul class="tags"><li>TeamCity</li><li>Nexus Artifactory</li><li>PostgreSQL / Crunchy Data</li><li>Kafka</li><li>MinIO</li></ul>
+      </div>
+    </article>
+
+    <article class="sys reveal" data-name="kustomize-gitops" data-kind="GitOps">
+      <figure class="sys-fig">
+        <svg class="dia" viewBox="0 0 400 240" role="img" aria-labelledby="dia-kus-t dia-kus-d">
+          <title id="dia-kus-t">Kustomize base and overlays with automated image updates</title>
+          <desc id="dia-kus-d">A shared Kustomize base feeds three overlays for dev, staging and prod. ArgoCD syncs each overlay to its environment, and Image Updater rolls out a new image as soon as a build succeeds.</desc>
+          <g class="n"><rect x="8" y="98" width="84" height="44" rx="6"/><text class="l" x="50" y="117">base/</text><text class="s" x="50" y="131">manifests</text></g>
+          <g class="n"><rect x="122" y="24" width="124" height="38" rx="6"/><text class="l" x="184" y="47">overlays/dev</text></g>
+          <g class="n"><rect x="122" y="101" width="124" height="38" rx="6"/><text class="l" x="184" y="124">overlays/staging</text></g>
+          <g class="n"><rect x="122" y="178" width="124" height="38" rx="6"/><text class="l" x="184" y="201">overlays/prod</text></g>
+          <path class="e" d="M92 120C108 120 104 43 120 43" marker-end="url(#ah)"/>
+          <path class="e" d="M92 120H120" marker-end="url(#ah)"/>
+          <path class="e" d="M92 120C108 120 104 197 120 197" marker-end="url(#ah)"/>
+          <g class="n hot"><rect x="286" y="60" width="106" height="46" rx="6"/><text class="l" x="339" y="80">argo cd</text><text class="s" x="339" y="94">sync per env</text></g>
+          <path class="e" d="M246 43C268 43 262 72 284 72" marker-end="url(#ah)"/>
+          <path class="e" d="M246 120C268 120 262 83 284 83" marker-end="url(#ah)"/>
+          <path class="e" d="M246 197C274 197 256 94 284 94" marker-end="url(#ah)"/>
+          <g class="n"><rect x="286" y="162" width="106" height="46" rx="6"/><text class="l" x="339" y="182">image updater</text><text class="s" x="339" y="196">on build success</text></g>
+          <path class="e a" d="M339 162V108" marker-end="url(#ah-a)"/>
+          <path class="flow" d="M339 162V108"/>
+          <text class="el st" x="347" y="139">new tag</text>
+        </svg>
+      </figure>
+      <div class="sys-body">
+        <div class="sys-top"><span class="badge">GitOps</span><span class="sys-ns">dev · staging · prod</span></div>
+        <h3>Kubernetes manifests to Kustomize, with automated image updates</h3>
+        <p>Refactored a production Kubernetes deployment from raw manifests to Kustomize with a base/overlay structure for environment-specific configs. Enabled ArgoCD Image Updater to deploy new images the moment a build succeeds, closing the loop on continuous delivery with zero manual intervention.</p>
+        <ul class="tags"><li>Kubernetes</li><li>Kustomize</li><li>ArgoCD</li><li>Image Updater</li><li>GitOps</li></ul>
+      </div>
+    </article>
+
+    <article class="sys reveal" data-name="vault-secrets" data-kind="Security">
+      <figure class="sys-fig">
+        <svg class="dia" viewBox="0 0 400 250" role="img" aria-labelledby="dia-vlt-t dia-vlt-d">
+          <title id="dia-vlt-t">Multi-cluster Vault secrets architecture</title>
+          <desc id="dia-vlt-d">A primary Vault cluster is auto-unsealed by a secondary Vault acting as the Transit Seal backend. In a separate application cluster, the Vault Agent sidecar injects secrets into pods across clusters, and the Vault Secrets Operator syncs secrets into native Kubernetes Secrets.</desc>
+          <g class="n hot"><rect x="8" y="38" width="128" height="50" rx="6"/><text class="l" x="72" y="60">vault</text><text class="s" x="72" y="75">primary cluster</text></g>
+          <g class="n"><rect x="8" y="174" width="128" height="50" rx="6"/><text class="l" x="72" y="196">vault · transit</text><text class="s" x="72" y="211">seal backend</text></g>
+          <path class="e a" d="M72 174V90" marker-end="url(#ah-a)"/>
+          <path class="flow" d="M72 174V90"/>
+          <text class="el st" x="80" y="136">auto-unseal</text>
+          <g class="g"><rect x="180" y="10" width="212" height="230" rx="8"/><text x="192" y="27">app cluster</text></g>
+          <g class="n"><rect x="196" y="38" width="180" height="50" rx="6"/><text class="l" x="286" y="60">app pod</text><text class="s" x="286" y="75">vault-agent sidecar</text></g>
+          <g class="n"><rect x="196" y="108" width="180" height="50" rx="6"/><text class="l" x="286" y="130">vault secrets operator</text><text class="s" x="286" y="145">k8s-native sync</text></g>
+          <g class="n"><rect x="196" y="180" width="180" height="46" rx="6"/><text class="l" x="286" y="200">kubernetes secret</text><text class="s" x="286" y="214">used by workloads</text></g>
+          <path class="e c" d="M136 56H194" marker-end="url(#ah-c)"/>
+          <text class="el c" x="158" y="49">inject</text>
+          <path class="e c" d="M136 74C170 74 160 133 194 133" marker-end="url(#ah-c)"/>
+          <path class="e" d="M286 158V178" marker-end="url(#ah)"/>
+        </svg>
+      </figure>
+      <div class="sys-body">
+        <div class="sys-top"><span class="badge">Security</span><span class="sys-ns">multi-cluster</span></div>
+        <h3>HashiCorp Vault: cross-cluster secret injection and auto-unseal</h3>
+        <p>Designed a multi-cluster secrets management architecture with HashiCorp Vault: cross-cluster secret injection via the Vault Agent Injector, Vault Secret Operator (VSO) for Kubernetes-native secret syncing, and Auto-Unseal using a secondary Vault cluster as the Transit Seal backend for resilient, hands-off recovery.</p>
+        <ul class="tags"><li>HashiCorp Vault</li><li>Agent Injector</li><li>VSO</li><li>Transit Seal</li><li>Kubernetes</li></ul>
+      </div>
+    </article>
+
+    <article class="sys reveal" data-name="galera-maxscale" data-kind="Database">
+      <figure class="sys-fig">
+        <svg class="dia" viewBox="0 0 400 240" role="img" aria-labelledby="dia-gal-t dia-gal-d">
+          <title id="dia-gal-t">MariaDB Galera cluster behind MaxScale</title>
+          <desc id="dia-gal-d">Applications connect to MaxScale, which routes queries and handles failover across the nodes of a multi-master MariaDB Galera cluster that replicate synchronously with each other.</desc>
+          <g class="n"><rect x="8" y="98" width="72" height="44" rx="6"/><text class="l" x="44" y="117">app</text><text class="s" x="44" y="131">clients</text></g>
+          <path class="e a" d="M80 120H110" marker-end="url(#ah-a)"/>
+          <g class="n hot"><rect x="112" y="94" width="116" height="52" rx="6"/><text class="l" x="170" y="117">maxscale</text><text class="s" x="170" y="132">routing · failover</text></g>
+          <g class="g"><rect x="262" y="10" width="130" height="222" rx="8"/><text x="274" y="27">galera cluster</text></g>
+          <g class="n"><rect x="278" y="38" width="98" height="38" rx="6"/><text class="l" x="327" y="61">db-1</text></g>
+          <g class="n"><rect x="278" y="100" width="98" height="38" rx="6"/><text class="l" x="327" y="123">db-2</text></g>
+          <g class="n"><rect x="278" y="162" width="98" height="38" rx="6"/><text class="l" x="327" y="185">db-n</text></g>
+          <path class="e a" d="M228 120C254 120 250 57 276 57" marker-end="url(#ah-a)"/>
+          <path class="e a" d="M228 120H276" marker-end="url(#ah-a)"/>
+          <path class="e a" d="M228 120C254 120 250 181 276 181" marker-end="url(#ah-a)"/>
+          <path class="flow" d="M80 120H110M228 120H276"/>
+          <path class="e c" d="M327 79V97" marker-start="url(#ah-c)" marker-end="url(#ah-c)"/>
+          <path class="e c" d="M327 141V159" marker-start="url(#ah-c)" marker-end="url(#ah-c)"/>
+          <text class="el c" x="327" y="220">sync replication</text>
+        </svg>
+      </figure>
+      <div class="sys-body">
+        <div class="sys-top"><span class="badge">Database</span><span class="sys-ns">multi-master · HA</span></div>
+        <h3>MariaDB Galera cluster with MaxScale load balancing</h3>
+        <p>Implemented a highly available MariaDB Galera multi-master cluster with MaxScale for intelligent query routing and load balancing, giving critical production workloads synchronous replication and seamless failover.</p>
+        <ul class="tags"><li>MariaDB</li><li>Galera Cluster</li><li>MaxScale</li><li>High availability</li></ul>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ CAREER ============ -->
+<section class="section" id="career" data-path="~/career">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow"><button type="button" class="cmd" data-run="helm history career">helm history career</button></p>
+      <h2 class="section-title">Release history</h2>
+    </div>
+    <p class="section-note reveal">Every role is a revision. The latest one is deployed.</p>
+  </div>
+
+  <div class="history">
+    <div class="rev rev-head" aria-hidden="true"><span>Revision</span><span>Updated</span><span>Status</span><span>Chart</span><span>Description</span></div>
+    <ol class="revs" reversed>
+      <li class="rev reveal" data-status="deployed">
+        <span class="rev-n">5</span>
+        <span class="rev-date">Aug 2024 — now</span>
+        <span class="rev-status"><i aria-hidden="true"></i>deployed</span>
+        <span class="rev-chart"><b>DevOps Engineer</b>Misr Technology Services (MTS)</span>
+        <span class="rev-desc">Automation and CI/CD pipelines; provisioning, scaling and monitoring of production services; security built into delivery; day-to-day work with developers on the SDLC.</span>
+      </li>
+      <li class="rev reveal" data-status="superseded">
+        <span class="rev-n">4</span>
+        <span class="rev-date">Oct 2023 — May 2024</span>
+        <span class="rev-status"><i aria-hidden="true"></i>superseded</span>
+        <span class="rev-chart"><b>Cloud Architecture &amp; DevOps scholarship</b>Information Technology Institute (ITI)</span>
+        <span class="rev-desc">Nine-month intensive: Linux, Bash, AWS, vSphere and NSX, Docker, Kubernetes, Jenkins, Git, Terraform, Prometheus.</span>
+      </li>
+      <li class="rev reveal" data-status="superseded">
+        <span class="rev-n">3</span>
+        <span class="rev-date">Aug 2022 — Aug 2023</span>
+        <span class="rev-status"><i aria-hidden="true"></i>superseded</span>
+        <span class="rev-chart"><b>Wireless Tripleplay Network Engineer</b>Orange Egypt</span>
+        <span class="rev-desc">Designed and implemented network projects; configured Cisco routers and switches, Juniper MX, GPON and IPTV head-end devices in the data center.</span>
+      </li>
+      <li class="rev reveal" data-status="superseded">
+        <span class="rev-n">2</span>
+        <span class="rev-date">Jan 2021 — Aug 2022</span>
+        <span class="rev-status"><i aria-hidden="true"></i>superseded</span>
+        <span class="rev-chart"><b>Maintenance Engineer</b>Aman E-Payment</span>
+        <span class="rev-desc">Level 3 engineer: handled escalated tickets against fixed deadlines and repaired defective machines.</span>
+      </li>
+      <li class="rev reveal" data-status="superseded">
+        <span class="rev-n">1</span>
+        <span class="rev-date">2015 — 2020</span>
+        <span class="rev-status"><i aria-hidden="true"></i>superseded</span>
+        <span class="rev-chart"><b>B.Sc. Electronics &amp; Communication Engineering</b>Modern Academy for Engineering and Technology</span>
+        <span class="rev-desc">Graduation project (A+): an embedded-systems smart stadium and wireless smart car.</span>
+      </li>
+    </ol>
+  </div>
+
+  <a class="cert reveal" href="https://www.credly.com/badges/278dd8e0-fe10-4dec-b3b4-7d16db802bb7/public_url" target="_blank" rel="noopener">
+    <span class="cert-mark" aria-hidden="true">RH</span>
+    <span class="cert-text"><b>Red Hat Certified System Administrator</b><span>RHCSA · verified credential on Credly</span></span>
+    <span class="cert-go">verify <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span>
+  </a>
+</section>
+
+<!-- ============ STACK ============ -->
+<section class="section" id="stack" data-path="~/stack">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow"><button type="button" class="cmd" data-run="kubectl get skills">kubectl get skills</button></p>
+      <h2 class="section-title">Technical stack</h2>
+    </div>
+    <p class="section-note reveal">Tools I run in production, not just in tutorials.</p>
+  </div>
+
+  <dl class="stack">
+    <div class="stack-row reveal"><dt>CI/CD &amp; automation</dt><dd><ul><li>GitLab CI</li><li>TeamCity</li><li>ArgoCD</li><li>Harbor Registry</li><li>Nexus Artifactory</li><li>Jenkins</li><li>GitHub Actions</li><li>Terraform</li><li>Ansible</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>Containers &amp; orchestration</dt><dd><ul><li>Docker</li><li>Kubernetes</li><li>OpenShift</li><li>Rancher</li><li>RKE2</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>AI infrastructure</dt><dd><ul><li>vLLM</li><li>Vector databases</li><li>NVIDIA GPUs</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>Security &amp; service mesh</dt><dd><ul><li>HashiCorp Vault</li><li>Istio</li><li>NeuVector</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>Monitoring &amp; observability</dt><dd><ul><li>Prometheus</li><li>Grafana</li><li>AppDynamics</li><li>Dynatrace</li><li>ELK Stack</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>Messaging &amp; streaming</dt><dd><ul><li>RabbitMQ</li><li>Apache Kafka</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>Object storage</dt><dd><ul><li>MinIO</li><li>Pure Storage FlashBlade</li></ul></dd></div>
+    <div class="stack-row reveal"><dt>Infrastructure &amp; systems</dt><dd><ul><li>RHEL / Ubuntu</li><li>vSphere</li><li>Redis</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>MariaDB / Galera</li><li>Bash</li><li>Python</li></ul></dd></div>
+  </dl>
+</section>
+
+<!-- ============ OPEN SOURCE ============ -->
+<section class="section" id="projects" data-path="~/open-source">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow"><button type="button" class="cmd" data-run="gh repo list Mahfouz98">gh repo list Mahfouz98</button></p>
+      <h2 class="section-title">Open source</h2>
+    </div>
+    <p class="section-note reveal">Infrastructure projects with the full code on GitHub.</p>
+  </div>
+
+  <ul class="repos">
+    <li class="reveal">
+      <a class="repo repo-lg" href="https://github.com/Mahfouz98/Ansible-Terraform-Kubernetes-Integration" target="_blank" rel="noopener" data-repo="Ansible-Terraform-Kubernetes-Integration">
+        <span class="repo-path">Mahfouz98/<b>Ansible-Terraform-Kubernetes-Integration</b></span>
+        <h3>Automated Kubernetes cluster deployment</h3>
+        <p>A kubeadm-based Kubernetes cluster on AWS EC2, provisioned with Terraform and configured end to end with Ansible.</p>
+        <ul class="tags"><li>Kubernetes</li><li>Terraform</li><li>Ansible</li><li>kubeadm</li></ul>
+        <span class="repo-foot"><span class="repo-stars" data-stars><svg class="i" aria-hidden="true"><use href="#i-star"/></svg><span>4</span></span><span>HCL</span><span class="repo-go">repo <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></span>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="repo repo-lg" href="https://github.com/Mahfouz98/CI-CD-Application-Deployment" target="_blank" rel="noopener" data-repo="CI-CD-Application-Deployment">
+        <span class="repo-path">Mahfouz98/<b>CI-CD-Application-Deployment</b></span>
+        <h3>Complete CI/CD web application deployment</h3>
+        <p>A web application delivered to a Kubernetes cluster on AWS: Terraform for the infrastructure, Ansible for the cluster, and a GitHub Actions pipeline that builds, tests and deploys.</p>
+        <ul class="tags"><li>AWS</li><li>Terraform</li><li>GitHub Actions</li><li>Docker</li></ul>
+        <span class="repo-foot"><span class="repo-stars" data-stars><svg class="i" aria-hidden="true"><use href="#i-star"/></svg><span>7</span></span><span>CI/CD</span><span class="repo-go">repo <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></span>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="repo" href="https://github.com/Mahfouz98/elasticsearch-eck-lab" target="_blank" rel="noopener" data-repo="elasticsearch-eck-lab">
+        <span class="repo-path">Mahfouz98/<b>elasticsearch-eck-lab</b></span>
+        <h3>Elasticsearch ECK lab</h3>
+        <p>A lab for deploying Elasticsearch through Terraform.</p>
+        <span class="repo-foot"><span class="repo-stars" data-stars hidden><svg class="i" aria-hidden="true"><use href="#i-star"/></svg><span>0</span></span><span>HCL</span><span class="repo-go">repo <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></span>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="repo" href="https://github.com/Mahfouz98/Prometheus-Grafana-Integration-with-K8s-Cluster" target="_blank" rel="noopener" data-repo="Prometheus-Grafana-Integration-with-K8s-Cluster">
+        <span class="repo-path">Mahfouz98/<b>Prometheus-Grafana-Integration-with-K8s-Cluster</b></span>
+        <h3>Kubernetes monitoring with Prometheus and Grafana</h3>
+        <p>Cluster monitoring with Prometheus and Grafana, installed with Helm.</p>
+        <span class="repo-foot"><span class="repo-stars" data-stars><svg class="i" aria-hidden="true"><use href="#i-star"/></svg><span>1</span></span><span>Helm</span><span class="repo-go">repo <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></span>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="repo" href="https://github.com/Mahfouz98/Emp-CRUD-docker-Java-mySQL" target="_blank" rel="noopener" data-repo="Emp-CRUD-docker-Java-mySQL">
+        <span class="repo-path">Mahfouz98/<b>Emp-CRUD-docker-Java-mySQL</b></span>
+        <h3>Spring Boot app on AWS with CI/CD</h3>
+        <p>A Dockerized Spring Boot CRUD app with MySQL behind a bastion host, shipped by GitHub Actions and Terraform.</p>
+        <span class="repo-foot"><span class="repo-stars" data-stars hidden><svg class="i" aria-hidden="true"><use href="#i-star"/></svg><span>0</span></span><span>Java</span><span class="repo-go">repo <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></span>
+      </a>
+    </li>
   </ul>
-
-  <p class="hero-sub">
-    I build and operate the systems other software depends on — <strong>CI/CD pipelines, GitOps-driven Kubernetes platforms, and GPU-accelerated AI infrastructure</strong> designed for scalability and reliability. I love solving complex problems and optimizing systems that just keep running.
-  </p>
-
-  <div class="hero-actions">
-    <a class="btn-primary" href="#projects" data-hover data-magnetic>View projects ↘</a>
-    <a class="btn-ghost" href="resume.pdf" target="_blank" download data-hover data-magnetic>Download resume</a>
-  </div>
-
-  <!-- floating "pod" cards -->
-  <div class="hero-float float-1" data-depth="26" aria-hidden="true">
-    <b>pod/ci-runner-7f9c</b>
-    <span>status: <i class="amber" style="font-style:normal">Running</i></span>
-    <span>restarts: 0 · uptime 247d</span>
-  </div>
-  <div class="hero-float float-2" data-depth="48" aria-hidden="true">
-    <b>terraform apply</b>
-    <span>Plan: 12 to add, 0 to destroy</span>
-    <span class="amber">Apply complete ✓</span>
-  </div>
-  <div class="hero-float float-3" data-depth="68" aria-hidden="true">
-    <b>node/worker-03</b>
-    <span>cpu 31% · mem 47%</span>
-    <span>Ready · v1.29</span>
-  </div>
-
-  <!-- signature: live pipeline -->
-  <div class="pipeline" aria-hidden="true">
-    <svg viewBox="0 0 1000 84" preserveAspectRatio="none" id="pipeSvg">
-      <line class="pipe-line" x1="40" y1="34" x2="960" y2="34"/>
-      <line class="pipe-line-lit" id="pipeLit" x1="40" y1="34" x2="960" y2="34"/>
-      <g class="pipe-node" data-x="40"><circle cx="40" cy="34" r="7"/><text x="40" y="68">commit</text></g>
-      <g class="pipe-node" data-x="270"><circle cx="270" cy="34" r="7"/><text x="270" y="68">build</text></g>
-      <g class="pipe-node" data-x="500"><circle cx="500" cy="34" r="7"/><text x="500" y="68">test</text></g>
-      <g class="pipe-node" data-x="730"><circle cx="730" cy="34" r="7"/><text x="730" y="68">deploy</text></g>
-      <g class="pipe-node" data-x="960"><circle cx="960" cy="34" r="7"/><text x="960" y="68">monitor</text></g>
-      <circle class="pipe-packet" id="pipePacket" cx="40" cy="34" r="5"/>
-    </svg>
-  </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track" id="marqueeTrack">
-    <span>Kubernetes <em>·</em> ArgoCD <em>·</em> Terraform <em>·</em> Vault <em>·</em> Docker <em>·</em> vLLM <em>·</em> Kafka <em>·</em> Ansible <em>·</em> Prometheus <em>·</em> Istio <em>·</em> Rancher <em>·</em>&nbsp;</span>
-    <span>Kubernetes <em>·</em> ArgoCD <em>·</em> Terraform <em>·</em> Vault <em>·</em> Docker <em>·</em> vLLM <em>·</em> Kafka <em>·</em> Ansible <em>·</em> Prometheus <em>·</em> Istio <em>·</em> Rancher <em>·</em>&nbsp;</span>
-  </div>
-</div>
-
-<!-- ABOUT / WHAT I DO -->
-<section class="section" id="about">
+<!-- ============ FIELD NOTES ============ -->
+<section class="section" id="blog" data-path="~/field-notes">
   <div class="section-head">
     <div>
-      <p class="section-eyebrow">cat about.md</p>
-      <h2 class="section-title"><span class="line" data-split>What I do</span></h2>
+      <p class="eyebrow"><button type="button" class="cmd" data-run="ls ~/field-notes">ls ~/field-notes</button></p>
+      <h2 class="section-title">Field notes</h2>
     </div>
-    <p class="section-note reveal">Day-to-day responsibilities across the delivery lifecycle — from source to production.</p>
+    <p class="section-note reveal">Runbooks and study notes, written while doing the work.</p>
   </div>
-  <div class="duties">
-    <article class="duty reveal">
-      <i>[SDLC]</i>
-      <h3>Developer collaboration</h3>
-      <p>Work closely with software developers to optimize the software development lifecycle end to end.</p>
-    </article>
-    <article class="duty reveal">
-      <i>[INFRA]</i>
-      <h3>Provision · Scale · Monitor</h3>
-      <p>Oversee the provisioning, scaling, and monitoring of services and applications in production.</p>
-    </article>
-    <article class="duty reveal">
-      <i>[SEC]</i>
-      <h3>Security by default</h3>
-      <p>Integrate security measures into every aspect of the platform and delivery process.</p>
-    </article>
-    <article class="duty reveal">
-      <i>[AUTO]</i>
-      <h3>Automation &amp; pipelines</h3>
-      <p>Develop and maintain automation scripts and CI/CD pipelines that remove manual toil.</p>
-    </article>
+
+  <div class="filters reveal" id="filters" role="group" aria-label="Filter notes by topic" hidden>
+    <button type="button" class="filter" data-filter="all" aria-pressed="true">all <span>10</span></button>
+    <button type="button" class="filter" data-filter="security" aria-pressed="false">security <span>3</span></button>
+    <button type="button" class="filter" data-filter="kubernetes" aria-pressed="false">kubernetes <span>3</span></button>
+    <button type="button" class="filter" data-filter="data" aria-pressed="false">data <span>2</span></button>
+    <button type="button" class="filter" data-filter="ops" aria-pressed="false">ops <span>2</span></button>
   </div>
+
+  <ol class="posts" id="posts">
+    <li class="post reveal" data-cat="security"><a href="https://maize-clutch-5db.notion.site/HashiCorp-Vault-Cross-Cluster-Secret-Injection-for-Kubernetes-37cc039e0c1c80febcb2dc99d299acb2?pvs=73" target="_blank" rel="noopener">
+      <span class="post-tag sec">vault</span>
+      <span class="post-main"><b>Vault: cross-cluster secret injection for Kubernetes</b><span>Configure the Vault Agent Injector to inject secrets from a Vault server in one cluster into application pods running in another.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="security"><a href="https://maize-clutch-5db.notion.site/Vault-Secret-Operator-Setup-for-Kubernetes-Development-Environment-32ec039e0c1c8048a3aad588e9c41265?pvs=74" target="_blank" rel="noopener">
+      <span class="post-tag sec">vault · vso</span>
+      <span class="post-main"><b>Vault Secret Operator setup for Kubernetes</b><span>Step-by-step setup of the Vault Secret Operator (VSO) with Kubernetes authentication for a development environment.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="security"><a href="https://maize-clutch-5db.notion.site/Auto-Unseal-for-Vault-Cluster-Using-Another-Vault-Cluster-Transit-Seal-338c039e0c1c80298a7df05cd5b740d2?pvs=73" target="_blank" rel="noopener">
+      <span class="post-tag sec">vault · transit</span>
+      <span class="post-main"><b>Vault auto-unseal with a secondary Vault cluster</b><span>Using a second Vault cluster as the Transit Seal backend for resilient, hands-off auto-unseal and recovery.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="data"><a href="https://maize-clutch-5db.notion.site/MariaDB-Galera-Cluster-with-MaxScale-Load-Balancing-37dc039e0c1c80499bf6cb719dfc5066?pvs=74" target="_blank" rel="noopener">
+      <span class="post-tag">mariadb · galera</span>
+      <span class="post-main"><b>MariaDB Galera cluster with MaxScale load balancing</b><span>An action plan for putting MaxScale query routing and failover in front of a Galera multi-master cluster.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="kubernetes"><a href="https://maize-clutch-5db.notion.site/Action-Plan-for-Upgrading-Rancher-from-v2-7-3-to-v2-10-2-and-Kubernetes-Clusters-from-v1-25-x-to-v1--18ec039e0c1c805a9c41ffabdba2413e?pvs=74" target="_blank" rel="noopener">
+      <span class="post-tag">rancher</span>
+      <span class="post-main"><b>Upgrading Rancher and its downstream clusters</b><span>A field-tested action plan for taking Rancher from v2.7 to v2.10 and Kubernetes from v1.25 to v1.30 without breaking workloads.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="kubernetes"><a href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" target="_blank" rel="noopener">
+      <span class="post-tag">argocd · gitops</span>
+      <span class="post-main"><b>ArgoCD multi-cluster management</b><span>Managing multiple Kubernetes clusters from one central ArgoCD instance: GitOps at fleet scale.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="kubernetes"><a href="https://maize-clutch-5db.notion.site/Istio-10ac039e0c1c800189b3d05358d6a62c" target="_blank" rel="noopener">
+      <span class="post-tag">istio</span>
+      <span class="post-main"><b>Istio service mesh notes</b><span>Study notes on Istio: traffic management, sidecars, and how a mesh actually behaves in a real cluster.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="ops"><a href="https://maize-clutch-5db.notion.site/Semaphore-UI-Setup-Documentation-1b0c039e0c1c8016944fe3514a2ded3d?pvs=73" target="_blank" rel="noopener">
+      <span class="post-tag">ansible</span>
+      <span class="post-main"><b>Semaphore UI setup</b><span>Setting up Semaphore UI, a clean web interface for running and scheduling Ansible playbooks.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="ops"><a href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" target="_blank" rel="noopener">
+      <span class="post-tag">observability</span>
+      <span class="post-main"><b>GitLab monitoring system</b><span>Configuring GitLab's bundled Prometheus to ship metrics to an external collector for unified observability.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+    <li class="post reveal" data-cat="data"><a href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" target="_blank" rel="noopener">
+      <span class="post-tag">rabbitmq</span>
+      <span class="post-main"><b>RabbitMQ 101</b><span>Study notes on RabbitMQ: exchanges, queues, and the messaging patterns behind reliable async systems.</span></span>
+      <span class="post-go">read <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+  </ol>
 </section>
 
-<!-- FEATURED WORK -->
-<section class="section" id="work" style="padding-top:0">
+<!-- ============ CONTACT ============ -->
+<section class="section" id="contact" data-path="~/contact">
   <div class="section-head">
     <div>
-      <p class="section-eyebrow">helm history production</p>
-      <h2 class="section-title"><span class="line" data-split>Production work</span></h2>
-    </div>
-    <p class="section-note reveal">Platforms I've architected and operated on the job — running in production today.</p>
-  </div>
-  <div class="featured">
-
-    <article class="feat feat-hero reveal">
-      <div class="feat-top">
-        <span class="feat-badge">AI Platform</span>
-        <span class="feat-ns">ns: production · gpu-pool</span>
-      </div>
-      <h3>AI Inference Platform — vLLM + Vector DB on GPU-Accelerated Kubernetes</h3>
-      <p>Deployed an end-to-end AI inference platform serving multiple LLMs via vLLM on NVIDIA GPUs, backed by a vector database and Redis for caching and retrieval. Migrated the entire stack from Docker Compose to a fully GitOps-driven Kubernetes deployment with ArgoCD and Image Updater for automated, zero-touch model and image rollouts.</p>
-      <ul class="tags"><li>vLLM</li><li>NVIDIA GPU</li><li>Vector DB</li><li>Redis</li><li>Kubernetes</li><li>ArgoCD</li><li>Image Updater</li></ul>
-    </article>
-
-    <article class="feat reveal">
-      <div class="feat-top">
-        <span class="feat-badge">Platform Migration</span>
-        <span class="feat-ns">20+ services · zero data loss</span>
-      </div>
-      <h3>Enterprise Environment Migration</h3>
-      <p>Led the end-to-end migration of a production environment of 20+ services to a new platform — TeamCity and Nexus Artifactory for CI/build, dual-cluster PostgreSQL on Crunchy Data with full replication for high availability, Kafka for event streaming, and MinIO for object storage — delivered with zero data loss.</p>
-      <ul class="tags"><li>TeamCity</li><li>Nexus Artifactory</li><li>PostgreSQL / Crunchy Data</li><li>Kafka</li><li>MinIO</li></ul>
-    </article>
-
-    <article class="feat reveal">
-      <div class="feat-top">
-        <span class="feat-badge">GitOps</span>
-        <span class="feat-ns">dev · staging · prod</span>
-      </div>
-      <h3>Kubernetes Manifests → Kustomize + Automated Image Updates</h3>
-      <p>Refactored a production Kubernetes deployment from raw manifests to Kustomize with a base/overlay structure for environment-specific configs. Enabled ArgoCD Image Updater to deploy new images the moment a build succeeds — closing the loop on continuous delivery with zero manual intervention.</p>
-      <ul class="tags"><li>Kubernetes</li><li>Kustomize</li><li>ArgoCD</li><li>Image Updater</li><li>GitOps</li></ul>
-    </article>
-
-    <article class="feat reveal">
-      <div class="feat-top">
-        <span class="feat-badge">Security</span>
-        <span class="feat-ns">multi-cluster</span>
-      </div>
-      <h3>HashiCorp Vault — Cross-Cluster Secret Injection &amp; Auto-Unseal</h3>
-      <p>Designed a multi-cluster secrets management architecture with HashiCorp Vault: cross-cluster secret injection via the Vault Agent Injector, Vault Secret Operator (VSO) for Kubernetes-native secret syncing, and Auto-Unseal using a secondary Vault cluster as the Transit Seal backend for resilient, hands-off recovery.</p>
-      <ul class="tags"><li>HashiCorp Vault</li><li>Agent Injector</li><li>VSO</li><li>Transit Seal</li><li>Kubernetes</li></ul>
-    </article>
-
-    <article class="feat reveal">
-      <div class="feat-top">
-        <span class="feat-badge">Database</span>
-        <span class="feat-ns">multi-master · HA</span>
-      </div>
-      <h3>MariaDB Galera Cluster with MaxScale Load Balancing</h3>
-      <p>Implemented a highly available MariaDB Galera multi-master cluster with MaxScale for intelligent query routing and load balancing — synchronous replication and seamless failover for critical production workloads.</p>
-      <ul class="tags"><li>MariaDB</li><li>Galera Cluster</li><li>MaxScale</li><li>High Availability</li></ul>
-    </article>
-
-  </div>
-</section>
-
-<!-- STACK -->
-<section class="section" id="stack" style="padding-top:0">
-  <div class="section-head">
-    <div>
-      <p class="section-eyebrow">kubectl get skills</p>
-      <h2 class="section-title"><span class="line" data-split>Technical stack</span></h2>
-    </div>
-    <p class="section-note reveal">All nodes reporting healthy. Tools I run in production, not just in tutorials.</p>
-  </div>
-  <div class="stack">
-    <article class="node reveal"><header><span class="cat">CI/CD &amp; Automation</span><span class="led"></span></header><ul><li>GitLab CI</li><li>TeamCity</li><li>ArgoCD</li><li>Harbor Registry</li><li>Nexus Artifactory</li><li>Jenkins</li><li>GitHub Actions</li><li>Terraform</li><li>Ansible</li></ul></article>
-    <article class="node reveal"><header><span class="cat">Containerization &amp; Orchestration</span><span class="led"></span></header><ul><li>Docker</li><li>Kubernetes</li><li>OpenShift</li><li>Rancher</li><li>RKE2</li></ul></article>
-    <article class="node reveal"><header><span class="cat">AI Infrastructure</span><span class="led"></span></header><ul><li>vLLM</li><li>Vector Databases</li><li>NVIDIA GPUs</li></ul></article>
-    <article class="node reveal"><header><span class="cat">Security &amp; Service Mesh</span><span class="led"></span></header><ul><li>HashiCorp Vault</li><li>Istio</li><li>NeuVector</li></ul></article>
-    <article class="node reveal"><header><span class="cat">Monitoring &amp; Observability</span><span class="led"></span></header><ul><li>Prometheus</li><li>Grafana</li><li>AppDynamics</li><li>Dynatrace</li><li>ELK Stack</li></ul></article>
-    <article class="node reveal"><header><span class="cat">Messaging &amp; Event Streaming</span><span class="led"></span></header><ul><li>RabbitMQ</li><li>Apache Kafka</li></ul></article>
-    <article class="node reveal"><header><span class="cat">Object Storage</span><span class="led"></span></header><ul><li>MinIO</li><li>Pure Storage FlashBlade</li></ul></article>
-    <article class="node reveal"><header><span class="cat">Infrastructure &amp; Systems</span><span class="led"></span></header><ul><li>RHEL / Ubuntu</li><li>vSphere</li><li>Redis</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>MariaDB / Galera</li><li>Bash</li><li>Python</li></ul></article>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section class="section" id="projects" style="padding-top:0">
-  <div class="section-head">
-    <div>
-      <p class="section-eyebrow">git log --open-source</p>
-      <h2 class="section-title"><span class="line" data-split>Open Source</span></h2>
-    </div>
-    <p class="section-note reveal">Open-source infrastructure projects — full code on GitHub.</p>
-  </div>
-  <div class="projects">
-    <a class="project reveal" href="https://github.com/Mahfouz98/Ansible-Terraform-Kubernetes-Integration" target="_blank" rel="noopener" data-hover data-cursor="Repo">
-      <div class="project-cover cover-k8s"></div>
-      <span class="project-badge">Running</span>
-      <span class="project-arrow">↗</span>
-      <div class="project-meta">
-        <h3 class="project-name">Automated Kubernetes Cluster Deployment</h3>
-        <p class="project-desc">Designed and implemented a Kubernetes cluster with kubeadm, fully provisioned and configured via Terraform and Ansible.</p>
-        <ul class="project-tags"><li>Kubernetes</li><li>Terraform</li><li>Ansible</li><li>kubeadm</li></ul>
-      </div>
-    </a>
-    <a class="project reveal" href="https://github.com/Mahfouz98/CI-CD-Application-Deployment" target="_blank" rel="noopener" data-hover data-cursor="Repo">
-      <div class="project-cover cover-cicd"></div>
-      <span class="project-badge">Running</span>
-      <span class="project-arrow">↗</span>
-      <div class="project-meta">
-        <h3 class="project-name">Complete CI/CD Web Application Deployment</h3>
-        <p class="project-desc">Deployed a scalable web application on AWS with infrastructure managed end-to-end by Terraform and an automated CI/CD pipeline.</p>
-        <ul class="project-tags"><li>AWS</li><li>Terraform</li><li>CI/CD</li></ul>
-      </div>
-    </a>
-  </div>
-</section>
-
-<!-- BLOG — LOG STREAM -->
-<div class="gallery-head" id="blog">
-  <p class="section-eyebrow">tail -f blog.log</p>
-  <h2 class="section-title"><span class="line" data-split>Field notes</span></h2>
-</div>
-<section class="gallery-wrap">
-  <div class="gallery-pin" id="galleryPin">
-    <div class="gallery-track" id="galleryTrack">
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/HashiCorp-Vault-Cross-Cluster-Secret-Injection-for-Kubernetes-37cc039e0c1c80febcb2dc99d299acb2?pvs=73" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-1" data-gpar></i></div>
-        <p class="log-line"><span class="sec">[SEC]</span> hashicorp vault</p>
-        <h3>Vault: Cross-Cluster Secret Injection for Kubernetes</h3>
-        <p>Configure the Vault Agent Injector to securely inject secrets from a Vault server in one Kubernetes cluster into application pods running in another.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/Vault-Secret-Operator-Setup-for-Kubernetes-Development-Environment-32ec039e0c1c8048a3aad588e9c41265?pvs=74" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-2" data-gpar></i></div>
-        <p class="log-line"><span class="sec">[SEC]</span> vault · vso</p>
-        <h3>Vault Secret Operator setup for Kubernetes</h3>
-        <p>Step-by-step setup of HashiCorp Vault Secret Operator (VSO) using Kubernetes authentication for a development environment.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/Auto-Unseal-for-Vault-Cluster-Using-Another-Vault-Cluster-Transit-Seal-338c039e0c1c80298a7df05cd5b740d2?pvs=73" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-3" data-gpar></i></div>
-        <p class="log-line"><span class="sec">[SEC]</span> vault · transit seal</p>
-        <h3>Vault Auto-Unseal with a secondary Vault cluster</h3>
-        <p>Using a second Vault cluster as the Transit Seal backend for resilient, hands-off Auto-Unseal and recovery.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/MariaDB-Galera-Cluster-with-MaxScale-Load-Balancing-37dc039e0c1c80499bf6cb719dfc5066?pvs=74" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-4" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> mariadb · galera</p>
-        <h3>MariaDB Galera Cluster with MaxScale load balancing</h3>
-        <p>Step-by-step action plan for implementing MariaDB MaxScale — query routing and failover in front of a Galera multi-master cluster.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/Action-Plan-for-Upgrading-Rancher-from-v2-7-3-to-v2-10-2-and-Kubernetes-Clusters-from-v1-25-x-to-v1--18ec039e0c1c805a9c41ffabdba2413e?pvs=74" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-5" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> rancher · kubernetes</p>
-        <h3>Upgrade Rancher &amp; downstream clusters</h3>
-        <p>A field-tested action plan for upgrading Rancher v2.7 → v2.10 and Kubernetes v1.25 → v1.30 without breaking workloads.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/ArgoCD-Multiple-Cluster-Management-12fc039e0c1c80aa940ecdfdf380a5d3?pvs=74" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-6" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> gitops · argocd</p>
-        <h3>ArgoCD multi-cluster management</h3>
-        <p>How to manage multiple Kubernetes clusters from one centralized ArgoCD instance — GitOps at fleet scale.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/Istio-10ac039e0c1c800189b3d05358d6a62c" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-7" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> service mesh</p>
-        <h3>Istio Service Mesh notes</h3>
-        <p>Study notes on Istio — traffic management, sidecars, and how a mesh actually behaves in a real cluster.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/Semaphore-UI-Setup-Documentation-1b0c039e0c1c8016944fe3514a2ded3d?pvs=73" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-8" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> ansible · automation</p>
-        <h3>Semaphore UI setup documentation</h3>
-        <p>Step-by-step setup of Semaphore UI — a clean web interface for running and scheduling Ansible playbooks.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/Configuring-GitLab-Monitoring-System-180c039e0c1c80e894ebd81ce9664b49" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-9" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> observability</p>
-        <h3>GitLab monitoring system</h3>
-        <p>Configuring GitLab's bundled Prometheus to ship metrics to an external collector for unified observability.</p>
-        <span class="read">Read more</span>
-      </a>
-
-      <a class="log-card" href="https://maize-clutch-5db.notion.site/RabbitMQ-101-112c039e0c1c80b3b4d0e8dcf8ce7ff5" target="_blank" rel="noopener" data-hover data-cursor="Read">
-        <div class="log-img"><i class="li-10" data-gpar></i></div>
-        <p class="log-line"><span class="lvl">[INFO]</span> messaging</p>
-        <h3>RabbitMQ 101</h3>
-        <p>Study notes on RabbitMQ — exchanges, queues, and the messaging patterns behind reliable async systems.</p>
-        <span class="read">Read more</span>
-      </a>
-
+      <p class="eyebrow"><button type="button" class="cmd" data-run="ssh ahmed@contact">ssh ahmed@contact</button></p>
+      <h2 class="section-title">Open a channel</h2>
     </div>
   </div>
-</section>
 
-<!-- CONTACT -->
-<section class="section" id="contact">
-  <div class="section-head">
-    <div>
-      <p class="section-eyebrow">ssh ahmed@contact</p>
-      <h2 class="section-title"><span class="line" data-split>Open a channel</span></h2>
-    </div>
-  </div>
-  <div class="contact-grid">
+  <div class="contact">
     <div class="contact-info reveal">
-      <p>Have an infrastructure problem, a pipeline that needs taming, or a cluster that keeps you up at night? <strong>Let's talk.</strong></p>
-      <p>I usually respond within a day. You can also find me on <strong>LinkedIn</strong> and <strong>GitHub</strong> — links in the footer.</p>
-      <div class="resume-card">
-        <div>
-          <b>resume.pdf</b>
-          <span>Experience, certifications &amp; full history</span>
-        </div>
-        <a class="btn-primary" href="resume.pdf" target="_blank" download data-hover data-magnetic>Download ↓</a>
-      </div>
+      <p class="lead">Have an infrastructure problem, a pipeline that needs taming, or a cluster that keeps you up at night?</p>
+      <p>Send a message and I'll usually reply within a day.</p>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/in/ahmed-mahfouzz/" target="_blank" rel="noopener me"><span>LinkedIn</span><span>/in/ahmed-mahfouzz <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+        <li><a href="https://github.com/Mahfouz98" target="_blank" rel="noopener me"><span>GitHub</span><span>Mahfouz98 <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span></a></li>
+        <li><a href="resume.pdf" download><span>Résumé</span><span>resume.pdf <svg class="i" aria-hidden="true"><use href="#i-down"/></svg></span></a></li>
+      </ul>
     </div>
+
     <div class="terminal reveal">
-      <div class="terminal-bar"><i></i><i></i><i></i><span>contact — bash</span></div>
-      <form action="https://formspree.io/f/xgvodowb" method="post">
-        <label>your email
-          <input type="email" name="email" required placeholder="you@company.com" data-hover>
-        </label>
-        <label>your message
-          <textarea name="message" required placeholder="Tell me about your project or problem..." data-hover></textarea>
-        </label>
-        <button type="submit" class="btn-primary" data-hover data-magnetic>Send message →</button>
+      <div class="terminal-bar" aria-hidden="true"><i></i><i></i><i></i><span>contact — bash</span></div>
+      <form id="contactForm" action="https://formspree.io/f/xgvodowb" method="post">
+        <label for="cEmail">your email</label>
+        <input id="cEmail" type="email" name="email" required autocomplete="email" placeholder="you@company.com">
+        <label for="cMsg">your message</label>
+        <textarea id="cMsg" name="message" required rows="6" placeholder="Tell me about your project or problem..."></textarea>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form-end">
+          <button type="submit" class="btn btn-solid">Send message <svg class="i" aria-hidden="true"><use href="#i-right"/></svg></button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </div>
       </form>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
+<!-- ============ FOOTER ============ -->
 <footer class="footer">
-  <span>© 2026 Ahmed Mahfouz</span>
-  <span class="up">● All systems operational</span>
-  <span class="socials">
-    <a href="https://linkedin.com/in/ahmed-mahfouzz/" target="_blank" rel="noopener" data-hover>LinkedIn</a>
-    <a href="https://github.com/Mahfouz98" target="_blank" rel="noopener" data-hover>GitHub</a>
-  </span>
+  <p>© <span id="year">2026</span> Ahmed Mahfouz</p>
+  <p class="footer-build">Hand-built: no framework, no trackers. <span id="perf"></span></p>
+  <p class="footer-links">
+    <a href="https://github.com/Mahfouz98/portfolio" target="_blank" rel="noopener">Source</a>
+    <a href="https://www.linkedin.com/in/ahmed-mahfouzz/" target="_blank" rel="noopener me">LinkedIn</a>
+    <a href="https://github.com/Mahfouz98" target="_blank" rel="noopener me">GitHub</a>
+  </p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-(() => {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const hasGSAP = typeof gsap !== 'undefined';
-  if (hasGSAP) gsap.registerPlugin(ScrollTrigger);
+<!-- ============ STATUS LINE + CONSOLE (enhanced by site.js) ============ -->
+<div class="statusline" id="statusline" hidden>
+  <span class="sl sl-host">ahmed@prod</span>
+  <span class="sl sl-path" id="slPath">~</span>
+  <span class="sl-fill"></span>
+  <a class="sl sl-deploy" id="slDeploy" href="https://github.com/Mahfouz98/portfolio/actions" target="_blank" rel="noopener" hidden></a>
+  <button class="sl sl-console" id="consoleToggle" type="button" aria-expanded="false" aria-controls="console"><kbd>`</kbd> console</button>
+</div>
 
-  /* ---------- Split characters (preserves nested elements) ---------- */
-  const splitNode = node => {
-    [...node.childNodes].forEach(child => {
-      if (child.nodeType === Node.TEXT_NODE) {
-        const frag = document.createDocumentFragment();
-        [...child.textContent].forEach(ch => {
-          const s = document.createElement('span');
-          s.className = 'char';
-          s.setAttribute('aria-hidden', 'true');
-          s.innerHTML = ch === ' ' ? '&nbsp;' : ch;
-          frag.appendChild(s);
-        });
-        node.replaceChild(frag, child);
-      } else if (child.nodeType === Node.ELEMENT_NODE) {
-        splitNode(child);
-      }
-    });
-  };
-  document.querySelectorAll('[data-split]').forEach(line => {
-    line.setAttribute('aria-label', line.textContent);
-    splitNode(line);
-  });
+<section class="console" id="console" aria-label="Interactive console" inert>
+  <header class="console-bar">
+    <span>ahmed@prod: ~ <i>— every command printed on this page works here</i></span>
+    <button type="button" id="consoleClose" aria-label="Close console">esc</button>
+  </header>
+  <div class="console-out" id="consoleOut" role="log" aria-live="polite"></div>
+  <div class="console-chips" id="consoleChips">
+    <button type="button" data-run="help">help</button>
+    <button type="button" data-run="whoami">whoami</button>
+    <button type="button" data-run="helm history career">helm history career</button>
+    <button type="button" data-run="kubectl get deployments -n production">kubectl get deployments</button>
+    <button type="button" data-run="git log -1">git log -1</button>
+    <button type="button" data-run="open resume">open resume</button>
+  </div>
+  <form class="console-in" id="consoleForm" autocomplete="off">
+    <label for="consoleInput">ahmed@prod:~$</label>
+    <input id="consoleInput" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" enterkeyhint="go">
+    <button type="submit" class="console-go">run</button>
+  </form>
+</section>
 
-  /* ---------- Sticky nav background ---------- */
-  const nav = document.getElementById('nav');
-  const onScrollNav = () => nav.classList.toggle('scrolled', window.scrollY > 24);
-  onScrollNav();
-  window.addEventListener('scroll', onScrollNav, { passive: true });
-
-  /* ---------- Mobile menu ---------- */
-  const burger = document.getElementById('burger');
-  burger.addEventListener('click', () => {
-    const open = nav.classList.toggle('menu-open');
-    burger.setAttribute('aria-expanded', open);
-  });
-  document.querySelectorAll('#navLinks a').forEach(a =>
-    a.addEventListener('click', () => { nav.classList.remove('menu-open'); burger.setAttribute('aria-expanded','false'); })
-  );
-
-  /* ---------- Terminal typing ---------- */
-  const typeTarget = document.getElementById('typeCmd');
-  const typeText = 'whoami';
-  if (prefersReduced || !hasGSAP) {
-    typeTarget.textContent = typeText;
-  } else {
-    let i = 0;
-    const typeNext = () => {
-      if (i <= typeText.length) {
-        typeTarget.textContent = typeText.slice(0, i++);
-        setTimeout(typeNext, 90 + Math.random() * 110);
-      }
-    };
-    setTimeout(typeNext, 500);
-  }
-
-  if (prefersReduced || !hasGSAP) {
-    document.querySelectorAll('.char').forEach(c => c.style.transform = 'none');
-    document.querySelectorAll('.hero-roles,.hero-sub,.hero-actions,.pipeline,.reveal').forEach(el => {
-      el.style.opacity = 1; el.style.transform = 'none';
-    });
-    document.querySelectorAll('.pipe-node').forEach(n => n.classList.add('lit'));
-    return;
-  }
-
-  /* ---------- HUD cursor + amber glow ---------- */
-  if (finePointer) {
-    document.body.classList.add('cursor-on');
-    const dot = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
-    const label = ring.querySelector('.cursor-label');
-    const glow = document.getElementById('glow');
-    const ctx = glow.getContext('2d');
-    let W, H;
-    const sizeCanvas = () => { W = glow.width = innerWidth; H = glow.height = innerHeight; };
-    sizeCanvas();
-    addEventListener('resize', sizeCanvas);
-
-    const mouse = { x: innerWidth/2, y: innerHeight/2 };
-    const pos   = { x: mouse.x, y: mouse.y };
-    const ringP = { x: mouse.x, y: mouse.y };
-
-    addEventListener('mousemove', e => {
-      mouse.x = e.clientX; mouse.y = e.clientY;
-      dot.style.left = e.clientX + 'px';
-      dot.style.top  = e.clientY + 'px';
-      document.documentElement.style.setProperty('--mx', e.clientX + 'px');
-      document.documentElement.style.setProperty('--my', e.clientY + 'px');
-    });
-
-    const lerp = (a, b, t) => a + (b - a) * t;
-    (function raf() {
-      ringP.x = lerp(ringP.x, mouse.x, .17);
-      ringP.y = lerp(ringP.y, mouse.y, .17);
-      ring.style.left = ringP.x + 'px';
-      ring.style.top  = ringP.y + 'px';
-
-      pos.x = lerp(pos.x, mouse.x, .07);
-      pos.y = lerp(pos.y, mouse.y, .07);
-      ctx.clearRect(0, 0, W, H);
-      const g = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 340);
-      g.addColorStop(0, 'rgba(255,176,0,.16)');
-      g.addColorStop(.45, 'rgba(255,120,0,.06)');
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, W, H);
-      requestAnimationFrame(raf);
-    })();
-
-    document.querySelectorAll('[data-hover]').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        ring.classList.add('is-hover');
-        label.textContent = el.dataset.cursor || '→';
-      });
-      el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
-    });
-
-    document.querySelectorAll('[data-magnetic]').forEach(el => {
-      el.addEventListener('mousemove', e => {
-        const r = el.getBoundingClientRect();
-        gsap.to(el, { x: (e.clientX - r.left - r.width/2) * .22, y: (e.clientY - r.top - r.height/2) * .22, duration: .4, ease: 'power3.out' });
-      });
-      el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: .6, ease: 'elastic.out(1,.4)' }));
-    });
-  }
-
-  /* ---------- Hero entrance ---------- */
-  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-  tl.to('.hero-title .char', { y: 0, duration: 1.1, stagger: .03 }, .2)
-    .to('.hero-roles',   { opacity: 1, y: 0, duration: .8 }, '-=.55')
-    .to('.hero-sub',     { opacity: 1, y: 0, duration: .8 }, '-=.55')
-    .to('.hero-actions', { opacity: 1, y: 0, duration: .8 }, '-=.55')
-    .to('.pipeline',     { opacity: 1, duration: 1 }, '-=.3');
-
-  /* ---------- Floating pods: ambient float + mouse parallax ---------- */
-  document.querySelectorAll('.hero-float').forEach((el, i) => {
-    gsap.to(el, {
-      y: i % 2 ? -20 : 16,
-      rotateX: i % 2 ? 4 : -3,
-      rotateY: i % 2 ? -5 : 4,
-      duration: 3.6 + i * .8,
-      ease: 'sine.inOut', yoyo: true, repeat: -1
-    });
-  });
-  if (finePointer) {
-    addEventListener('mousemove', e => {
-      const nx = e.clientX / innerWidth - .5;
-      const ny = e.clientY / innerHeight - .5;
-      document.querySelectorAll('.hero-float').forEach(el => {
-        const d = +el.dataset.depth || 30;
-        gsap.to(el, { xPercent: nx * d * -.5, yPercent: ny * d * -.4, duration: 1.1, ease: 'power3.out', overwrite: 'auto' });
-      });
-    });
-  }
-
-  /* ---------- Pipeline animation (signature) ---------- */
-  const packet = document.getElementById('pipePacket');
-  const lit = document.getElementById('pipeLit');
-  const nodes = [...document.querySelectorAll('.pipe-node')];
-  const xs = nodes.map(n => +n.dataset.x);
-  const pipeTl = gsap.timeline({ repeat: -1, repeatDelay: 1.4, defaults: { ease: 'power1.inOut' } });
-  pipeTl.set(lit, { attr: { x2: 40 } })
-        .set(packet, { attr: { cx: 40 } })
-        .call(() => nodes.forEach(n => n.classList.remove('lit')));
-  xs.forEach((x, i) => {
-    pipeTl.to(packet, { attr: { cx: x }, duration: i === 0 ? .01 : .9 }, i === 0 ? 0 : '>')
-          .to(lit,    { attr: { x2: x }, duration: i === 0 ? .01 : .9 }, '<')
-          .call(() => nodes[i].classList.add('lit'))
-          .to({}, { duration: .35 });
-  });
-
-  /* ---------- Split reveals on scroll ---------- */
-  document.querySelectorAll('.section-title').forEach(title => {
-    gsap.to(title.querySelectorAll('.char'), {
-      y: 0, duration: 1, ease: 'power4.out', stagger: .022,
-      scrollTrigger: { trigger: title, start: 'top 86%' }
-    });
-  });
-
-  /* ---------- Generic reveals (staggered per batch) ---------- */
-  ScrollTrigger.batch('.reveal', {
-    start: 'top 88%',
-    onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .08 })
-  });
-
-  /* ---------- Projects: subtle scroll drift ---------- */
-  document.querySelectorAll('.project').forEach((card, i) => {
-    gsap.fromTo(card, { y: i % 2 ? 44 : 12 }, {
-      y: i % 2 ? -22 : -4, ease: 'none',
-      scrollTrigger: { trigger: '.projects', start: 'top bottom', end: 'bottom top', scrub: 1 }
-    });
-  });
-
-  /* ---------- Horizontal blog log-stream ---------- */
-  const track = document.getElementById('galleryTrack');
-  const getScroll = () => Math.max(0, track.scrollWidth - innerWidth);
-  gsap.to(track, {
-    x: () => -getScroll(),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#galleryPin',
-      start: 'top top',
-      end: () => '+=' + getScroll(),
-      pin: true, scrub: 1,
-      invalidateOnRefresh: true, anticipatePin: 1
-    }
-  });
-  document.querySelectorAll('[data-gpar]').forEach(img => {
-    gsap.fromTo(img, { xPercent: -8 }, {
-      xPercent: 8, ease: 'none',
-      scrollTrigger: { trigger: '#galleryPin', start: 'top top', end: () => '+=' + getScroll(), scrub: 1 }
-    });
-  });
-
-  /* ---------- Marquee ---------- */
-  gsap.to('#marqueeTrack', { xPercent: -50, ease: 'none', duration: 28, repeat: -1 });
-
-  /* ---------- Refresh after assets settle ---------- */
-  addEventListener('load', () => ScrollTrigger.refresh());
-})();
-</script>
 </body>
 </html>
